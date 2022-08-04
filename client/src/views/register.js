@@ -1,8 +1,4 @@
 var m = require("mithril");
-const jwt = require('../config/jwt');
-const {
-    mountRoutes
-} = require("../mounter");
 const User = require('../models/users');
 
 
@@ -29,25 +25,39 @@ const credential = {
     set password(value) {
         this._password = value;
     },
-    login(e) {
+
+     _confirm_password: "",
+    get confirm_password() {
+        return this._confirm_password;
+    },
+    set confirm_password(value) {
+        this._confirm_password = value;
+    },
+    register(e) {
         e.preventDefault();
+        console.log('register');
         for(var user of User){
-            if((user.username == credential.username) && (user.password == credential.password)){
-                // jwt.token = credential.username + "-" + credential.password;
-                mountRoutes(),
+        	console.log("loop");
+            if((user.username != credential.username) && (user.password != credential.password))
                 credential.check++;
-            }
         }
-        if(credential.check == 0){
-            credential.error = "Erreur de login"
+        if((credential.check == User.length) && (credential.password == credential.confirm_password)){
+        	console.log(credential.check);
+    		User.push({"username": credential.username, "password": credential.password, "role": "client"});
+    		console.log(User);
+    		m.route.set('/login');
         }
+        if(credential.check == 0)
+            credential.error = "Erreur d'enregistrement de compte";
     }
 }
 
+
+
 module.exports = {
-    view: function(vnode){
-        return [
-            m("div", {"class": "flex items-center justify-center pt-8"}, [
+	view: function(vnode){
+		return [
+			 m("div", {"class": "flex items-center justify-center pt-8"}, [
               m("div", {"class":" p-4 max-w-sm  bg-white rounded-lg border border-gray-200 shadow-md sm:p-6 lg:p-8 dark:bg-gray-800 dark:border-gray-700"}, 
               m("form", {"class":"space-y-6","action":"#"},
                 [
@@ -82,47 +92,35 @@ module.exports = {
                       })
                     ]
                   ),
-                  m("div", {"class":"flex items-start"},
+                    m("div",
                     [
-                      m("div", {"class":"flex items-start"},
-                        [
-                          m("div", {"class":"flex items-center h-5"}, 
-                            m("input", {"class":"w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800","id":"remember","type":"checkbox","value":"","required":"required"})
-                          ),
-                          m("label", {"class":"ml-2 text-sm font-medium text-gray-900 dark:text-gray-300","for":"remember"}, 
-                            "Se souvenir de moi "
-                          )
-                        ]
+                      m("label", {"class":"block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300","for":"password"}, 
+                        "Confirmer le mot de passe"
                       ),
-                      m("a", {"class":"ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500","href":"#"}, 
-                        "Mot de passe oublié ?"
-                      ),
-                      m("br")
+                      m("input", {
+                        "class":"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white","type":"password","name":"password","id":"password","placeholder":"Entrez votre code secret","required":"required",
+                            oninput: function(e) {
+                            credential.confirm_password = e.target.value
+                        },
+                        value: credential.confirm_password
+                      })
                     ]
-                  ),
-                   m("div", {
-                    "class":"p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800 font-medium","role":"alert",
-                    "style": {
-                        "display": credential.errorDisplay()
-                    }
-                  },
-                    credential.error
                   ),
                   m("button", {
                     "class":"w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800","type":"submit",
                       disabled: !credential.canSubmit(),
-                      onclick: credential.login
+                      onclick: credential.register
                   }, 
-                    "Se connecter"
+                    "S'inscrire"
                   ),
                   m("div", {"class":"text-sm font-medium text-gray-500 dark:text-gray-300"},
                     [
-                      " Pas de compte ? ",
+                      " Vous avec déjà un compte ? ",
                       m(m.route.Link, {
                         class:"text-blue-700 hover:underline dark:text-blue-500",
-                        href:"/register"
+                        href:"/login"
                         }, 
-                        "Créer un compte"
+                        "Se connecter"
                       )
                     ]
                   )
@@ -130,6 +128,6 @@ module.exports = {
               )
             )
             ])
-        ]
-    }
+		]
+	}
 }
