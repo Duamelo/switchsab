@@ -1,5 +1,8 @@
 var m = require("mithril");
 var layout = require("./views/layout");
+var register = require("./views/register");
+var login = require("./views/login");
+
 
 function mountRoutes() {
     document.body.className = "";
@@ -8,7 +11,7 @@ function mountRoutes() {
                 render: function() {
                     return m(layout);
                 }
-            },
+            }
         });
 }
 
