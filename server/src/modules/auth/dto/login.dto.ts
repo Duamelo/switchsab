@@ -1,6 +1,6 @@
 import { IsString, IsNotEmpty, MinLength } from 'class-validator';
 
-export class LogInDto {
+export default class LogInDto {
   @IsString()
   pseudo: string;
 
@@ -9,5 +9,3 @@ export class LogInDto {
   @MinLength(7)
   password: string;
 }
-
-export default LogInDto;

@@ -17,7 +17,10 @@ export class UsersService {
     if (user) {
       return user;
     }
-    throw new HttpException('User with this pseudo does not exist', HttpStatus.NOT_FOUND);
+    throw new HttpException(
+      'User with this pseudo does not exist',
+      HttpStatus.NOT_FOUND,
+    );
   }
 
   async getByIds(ids: number[]) {
@@ -31,13 +34,15 @@ export class UsersService {
     if (user) {
       return user;
     }
-    throw new HttpException('User with this id does not exist', HttpStatus.NOT_FOUND);
+    throw new HttpException(
+      'User with this id does not exist',
+      HttpStatus.NOT_FOUND,
+    );
   }
 
   async create(userData: CreateUserDto) {
-    
     const newUser = await this.usersRepository.create({
-      ...userData
+      ...userData,
     });
     await this.usersRepository.save(newUser);
     return newUser;
@@ -46,7 +51,7 @@ export class UsersService {
   async setCurrentRefreshToken(refreshToken: string, userId: number) {
     const currentHashedRefreshToken = await bcrypt.hash(refreshToken, 10);
     await this.usersRepository.update(userId, {
-      currentHashedRefreshToken
+      currentHashedRefreshToken,
     });
   }
 
@@ -55,7 +60,7 @@ export class UsersService {
 
     const isRefreshTokenMatching = await bcrypt.compare(
       refreshToken,
-      user.currentHashedRefreshToken
+      user.currentHashedRefreshToken,
     );
 
     if (isRefreshTokenMatching) {
@@ -65,9 +70,7 @@ export class UsersService {
 
   async removeRefreshToken(userId: number) {
     return this.usersRepository.update(userId, {
-      currentHashedRefreshToken: null
+      currentHashedRefreshToken: null,
     });
   }
-
-
 }

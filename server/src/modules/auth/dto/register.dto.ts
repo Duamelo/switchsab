@@ -1,6 +1,6 @@
 import { IsString, IsNotEmpty, MinLength, Matches } from 'class-validator';
 
-export class RegisterDto {
+export default class RegisterDto {
   @IsString()
   pseudo: string;
 
@@ -15,11 +15,8 @@ export class RegisterDto {
   @MinLength(7)
   password: string;
 
-  
   @IsString()
   @IsNotEmpty()
   @Matches(/^\+[1-9]\d{1,14}$/)
   phone: string;
 }
-
-export default RegisterDto;

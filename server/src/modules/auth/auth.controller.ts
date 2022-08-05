@@ -5,7 +5,9 @@ import {
   HttpCode,
   Post,
   UseGuards,
-  Get, ClassSerializerInterceptor, UseInterceptors,
+  Get,
+  ClassSerializerInterceptor,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import RegisterDto from './dto/register.dto';
@@ -13,7 +15,6 @@ import RequestWithUser from './requestWithUser.interface';
 import { LocalAuthGuard } from './localAuth.guard';
 import JwtAuthGuard from './jwt-auth.guard';
 import { UsersService } from '../users/users.service';
-import LogInDto from './dto/login.dto';
 
 @Controller('auth')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -34,15 +35,18 @@ export class AuthController {
   @Post('log-in')
   async logIn(@Req() request: RequestWithUser) {
     const { user } = request;
-    const accessTokenCookie = this.authService.getCookieWithJwtAccessToken(user.id);
-    const {
-      cookie: refreshTokenCookie,
-      token: refreshToken
-    } = this.authService.getCookieWithJwtRefreshToken(user.id);
+    const accessTokenCookie = this.authService.getCookieWithJwtAccessToken(
+      user.id,
+    );
+    const { cookie: refreshTokenCookie, token: refreshToken } =
+      this.authService.getCookieWithJwtRefreshToken(user.id);
 
     await this.usersService.setCurrentRefreshToken(refreshToken, user.id);
 
-    request.res.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie]);
+    request.res.setHeader('Set-Cookie', [
+      accessTokenCookie,
+      refreshTokenCookie,
+    ]);
 
     return user;
   }
