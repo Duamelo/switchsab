@@ -7,15 +7,15 @@ const PermissionGuard = (permission: Permission): Type<CanActivate> => {
   class PermissionGuardMixin extends JwtAuthGuard {
     async canActivate(context: ExecutionContext) {
       await super.canActivate(context);
- 
+
       const request = context.switchToHttp().getRequest<RequestWithUser>();
       const user = request.user;
- 
+
       return user?.permissions.includes(permission);
     }
   }
- 
+
   return mixin(PermissionGuardMixin);
-}
- 
+};
+
 export default PermissionGuard;

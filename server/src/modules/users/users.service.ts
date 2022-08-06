@@ -4,6 +4,7 @@ import { Repository, In } from 'typeorm';
 import User from './user.entity';
 import CreateUserDto from './dto/createUser.dto';
 import * as bcrypt from 'bcrypt';
+import UpdateUserDto from './dto/updateUser.dto';
 
 @Injectable()
 export class UsersService {
@@ -23,10 +24,8 @@ export class UsersService {
     );
   }
 
-  async getByIds(ids: number[]) {
-    return this.usersRepository.find({
-      where: { id: In(ids) },
-    });
+  async getByIds() {
+    return await this.usersRepository.find();
   }
 
   async getById(id: number) {
@@ -44,7 +43,7 @@ export class UsersService {
     const newUser = await this.usersRepository.create({
       ...userData,
     });
-    
+
     await this.usersRepository.save(newUser);
     return newUser;
   }
@@ -73,5 +72,43 @@ export class UsersService {
     return this.usersRepository.update(userId, {
       currentHashedRefreshToken: null,
     });
+  }
+
+  public async delete(id: number) {
+    const user = await this.usersRepository.find({ where: { id: id } });
+
+    if (user.length != 0) {
+      const deletedUser = await this.usersRepository.delete(id);
+      if (!deletedUser.affected)
+        throw new HttpException('Failed to delete', HttpStatus.NOT_FOUND);
+      else throw new HttpException('user deleted', HttpStatus.FOUND);
+    }
+    throw new HttpException('uuser not found', HttpStatus.NOT_FOUND);
+  }
+
+  public async update(id: number, user: UpdateUserDto) {
+    const _user = await this.usersRepository.find({ where: { id: id } });
+
+    if (_user.length != 0) {
+      const user_pseudo = await this.usersRepository.find({
+        where: { pseudo: user.pseudo },
+      });
+
+      const hashPassword = await bcrypt.hash(user.password, 15);
+      user.password = hashPassword;
+
+      if (user_pseudo.length == 0) {
+        await this.usersRepository.update(id, user);
+
+        const updatedCustomer = await this.usersRepository.findOne({
+          where: { id: id },
+        });
+
+        if (updatedCustomer) {
+          return updatedCustomer;
+        }
+        throw new HttpException('Failed to update', HttpStatus.NOT_FOUND);
+      }
+    }
   }
 }
