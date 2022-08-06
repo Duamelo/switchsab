@@ -1,0 +1,38 @@
+.login_form{
+    width: 70%;
+}
+
+.btn_login{
+    width: 100%;
+}
+
+.nav_icon{
+    
+}
+
+.profil{
+    width: 100%;
+}
+
+.help{
+    margin-right: 30px;
+    margin-top: 15px;
+}
+
+.profil_img{
+}
+
+.navbar_li{
+    position: relative;
+    left: 210px;
+}
+
+.box_name{
+    width: 70%;
+    height: 40px;
+}
+
+.computer{
+    position: relative;
+    left: 50px;
+}
