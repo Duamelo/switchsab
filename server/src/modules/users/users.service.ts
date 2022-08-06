@@ -100,12 +100,12 @@ export class UsersService {
       if (user_pseudo.length == 0) {
         await this.usersRepository.update(id, user);
 
-        const updatedCustomer = await this.usersRepository.findOne({
+        const updatedclient = await this.usersRepository.findOne({
           where: { id: id },
         });
 
-        if (updatedCustomer) {
-          return updatedCustomer;
+        if (updatedclient) {
+          return updatedclient;
         }
         throw new HttpException('Failed to update', HttpStatus.NOT_FOUND);
       }
