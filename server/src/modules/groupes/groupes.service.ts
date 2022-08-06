@@ -3,12 +3,14 @@ import { InjectRepository } from "@nestjs/typeorm";
 import Groupe from './groupe.entity';
 import { Repository } from 'typeorm';
 import groupeDto from './dto/groupeDto.dto';
+import { CategoriesService } from '../categories/categories.service';
 
 @Injectable()
 export class GroupesService {
   constructor(
     @InjectRepository(Groupe)
     private groupesRepository: Repository<Groupe>,
+    private readonly categoriesService: CategoriesService,
   ) {}
 
   public async  index() {
@@ -16,12 +18,20 @@ export class GroupesService {
   }
 
   public async create(groupeData: groupeDto){
-    const newGroupe = await this.groupesRepository.create({
-      ...groupeData,
-    });
-    
-    await this.groupesRepository.save(newGroupe);
-    return newGroupe;
+    const categorie = await this.categoriesService.getById(groupeData.categorieId)
+    if(categorie)
+    {
+      const newGroupe = await this.groupesRepository.create({
+        ...groupeData,
+      });
+      
+      await this.groupesRepository.save(newGroupe);
+      return newGroupe;
+    }
+    throw new HttpException(
+      'Categorie with this id does not exist',
+      HttpStatus.NOT_FOUND,
+    );
   }
 
   public async getById(id: number){
@@ -36,9 +46,15 @@ export class GroupesService {
   }
 
   public async update(id: number, groupeData: groupeDto){
-    return this.groupesRepository.update(id, {
-      ...groupeData
-    });
+    const categorie = await this.categoriesService.getById(groupeData.categorieId)
+
+    if(categorie)
+      return this.groupesRepository.update(id, {...groupeData});
+    
+    throw new HttpException(
+      'Categorie with this id does not exist',
+      HttpStatus.NOT_FOUND,
+    );
   }
 
   public async delete(id: number){
