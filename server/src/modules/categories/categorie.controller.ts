@@ -14,7 +14,7 @@ export class CategorieController {
 
     //@UseGuards(PermissionGuard(CategoriesPermission.ReadCategories))
     @UseGuards(JwtAuthGuard)
-    @Get('')
+    @Get()
     async index() { 
       return this.categoriesService.index();
     }
@@ -28,7 +28,7 @@ export class CategorieController {
 
     //@UseGuards(PermissionGuard(CategoriesPermission.CreateCategories))
     @UseGuards(JwtAuthGuard)
-    @Post('')
+    @Post()
     async create(@Body() categorieData: categorieDto) {
      return this.categoriesService.create(categorieData);
     }

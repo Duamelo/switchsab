@@ -12,7 +12,7 @@ export class GroupeController {
 
     //@UseGuards(PermissionGuard(GroupesPermission.ReadGroupes))
     @UseGuards(JwtAuthGuard)
-    @Get('')
+    @Get()
     async index() { 
       return this.groupesService.index();
     }
@@ -26,7 +26,7 @@ export class GroupeController {
 
     //@UseGuards(PermissionGuard(GroupesPermission.CreateGroupes))
     @UseGuards(JwtAuthGuard)
-    @Post('')
+    @Post()
     async create(@Body() groupeData: groupeDto) {
      return this.groupesService.create(groupeData);
     }
