@@ -8,10 +8,8 @@
   },
   "dependencies": {
     "construct-ui": "^0.3.3",
-    "flowbite": "^1.5.1",
     "jwt-decode": "^3.1.2",
-    "mithril": "^2.2.2",
-    "tailwindcss": "^2.2.19"
+    "mithril": "^2.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",

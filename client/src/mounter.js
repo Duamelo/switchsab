@@ -1,7 +1,7 @@
 var m = require("mithril");
 var layout = require("./views/layout");
-var register = require("./views/register");
-var login = require("./views/login");
+const sidebar_dashboard = require("./components/sidebar/sidebar_dashboard");
+const dashboard = require("./views/dashboard");
 
 
 function mountRoutes() {
@@ -9,11 +9,9 @@ function mountRoutes() {
         m.route(document.body, "/", {
             "/": {
                 render: function() {
-                    return m(layout);
+                    return m(layout, m(sidebar_dashboard), m(dashboard));
                 }
             }
         });
 }
-
-
 exports.mountRoutes = mountRoutes;

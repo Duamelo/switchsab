@@ -57,77 +57,118 @@ const credential = {
 module.exports = {
 	view: function(vnode){
 		return [
-			 m("div", {"class": "flex items-center justify-center pt-8"}, [
-              m("div", {"class":" p-4 max-w-sm  bg-white rounded-lg border border-gray-200 shadow-md sm:p-6 lg:p-8 dark:bg-gray-800 dark:border-gray-700"}, 
-              m("form", {"class":"space-y-6","action":"#"},
-                [
-                  m("h5", {"class":" text-center text-xl font-medium text-gray-900 dark:text-white"}, 
-                    "LOGO"
-                  ),
-                  m("div",
+      m("div", {
+        "class": "justify-content-center mt-5"
+      }, [
+        m("div", {
+          "class": "row"
+        }, [
+          m("div", {
+            "class": "col-4"
+          }),
+          m("div", {
+            "class": "col-4"
+          },[
+            m("p", {"class": "text-center mb-3"}, "Ajouter un compte"),
+            m("div", {
+              "class": "card"
+            },[
+              m("div", {
+                "class": ""
+              }, [
+                m("a", {"class":"navbar-brand","href":"#"}, 
+                  m("img", {"src":"/docs/5.2/assets/brand/bootstrap-logo.svg","alt":"","width":"30","height":"24"})
+                ),
+                m("h6", {
+                  "class": "text-center"
+                }, "SWITCHSAB")
+              ]),
+              m("div", {
+                "class": "card-body"
+              }, [
+                m("div", {
+                  "class": "login_form mx-auto"
+                }, [
+                    m("form",
                     [
-                      m("label", {"class":"block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300","for":"text"}, 
-                        "Nom d'utilisateur"
-                      ),
-                      m("input", {
-                        "class":"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white","type":"text","name":"username","id":"username","placeholder":"duamelo","required":"required",
+                      m("div", {"class":"mb-3"},
+                        [
+                          m("label", {"class":"form-label"}, 
+                            "Nom d'utilisateur"
+                          ),
+                          m("input", {
+                            "class":"form-control",
+                            "type":"email",
+                            "placeholder": "John Doe",
                             oninput: function(e) {
-                            credential.username = e.target.value
-                        },
-                        value: credential.username
-                      })
-                    ]
-                  ),
-                  m("div",
-                    [
-                      m("label", {"class":"block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300","for":"password"}, 
-                        "Mot de passe"
+                              credential.username = e.target.value
+                            },
+                              value: credential.username
+                          }),
+                        ]
                       ),
-                      m("input", {
-                        "class":"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white","type":"password","name":"password","id":"password","placeholder":"Entrez votre code secret","required":"required",
+                      m("div", {"class":"mb-3"},
+                        [
+                          m("label", {"class":"form-label"}, 
+                            "Mot de passe"
+                          ),
+                          m("input", {
+                            "class":"form-control",
+                            "type":"password",
+                            "placeholder": "Entrez votre mot de passe",
                             oninput: function(e) {
-                            credential.password = e.target.value
-                        },
-                        value: credential.password
-                      })
-                    ]
-                  ),
-                    m("div",
-                    [
-                      m("label", {"class":"block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300","for":"password"}, 
-                        "Confirmer le mot de passe"
+                              credential.password = e.target.value
+                            },
+                              value: credential.password
+                          })
+                        ]
                       ),
-                      m("input", {
-                        "class":"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white","type":"password","name":"password","id":"password","placeholder":"Entrez votre code secret","required":"required",
-                            oninput: function(e) {
+                      m("div", {"class":"mb-3"},
+                      [
+                        m("label", {"class":"form-label"}, 
+                          "Confirmation mot de passe"
+                        ),
+                        m("input", {
+                          "class":"form-control",
+                          "type":"password",
+                          "placeholder": "Entrez votre mot de passe",
+                          oninput: function(e) {
                             credential.confirm_password = e.target.value
-                        },
-                        value: credential.confirm_password
-                      })
-                    ]
-                  ),
-                  m("button", {
-                    "class":"w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800","type":"submit",
-                      disabled: !credential.canSubmit(),
-                      onclick: credential.register
-                  }, 
-                    "S'inscrire"
-                  ),
-                  m("div", {"class":"text-sm font-medium text-gray-500 dark:text-gray-300"},
-                    [
-                      " Vous avec déjà un compte ? ",
-                      m(m.route.Link, {
-                        class:"text-blue-700 hover:underline dark:text-blue-500",
-                        href:"/login"
-                        }, 
-                        "Se connecter"
-                      )
+                          },
+                            value: credential.confirm_password
+                        })
+                      ]
+                    ),
+                      m("button", {
+                        "class":"btn btn-primary btn_login mb-3",
+                        "type":"submit",
+                        disabled: !credential.canSubmit(),
+                        onclick: credential.register
+                      }, 
+                        "S'enregistrer"
+                      ),
+                      m("div", {"class":"text-center"},
+                        [
+                          " Vous avez un compte ? ",
+                          m(m.route.Link, {
+                            "class":"",
+                            "href":"/login"
+                            }, 
+                            "Se connecter"
+                          )
+                        ]
+                    )
                     ]
                   )
-                ]
-              )
-            )
+                ])
+              ])
             ])
+          ]),
+          m("div", {
+            "class": "col-4"
+          })
+        ])
+      ])
 		]
 	}
 }
