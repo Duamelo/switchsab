@@ -1,6 +1,5 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import Groupe from "../groupes/groupe.entity";
-
 
 @Entity()
 class Poste {
@@ -15,6 +14,7 @@ class Poste {
 
     @ManyToOne(() => Groupe, (groupe: Groupe) => groupe.postes)
     public groupe: Groupe;
+
 }
 
 export default Poste;

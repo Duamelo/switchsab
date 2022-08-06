@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import Permission from './permissions/permission.type';
+import Categorie from '../categories/categorie.entity';
 
 @Entity()
 class User {
@@ -34,6 +35,10 @@ class User {
 
   @Column({ nullable: true })
   public currentHashedRefreshToken: string;
+
+  @ManyToMany(() => Categorie, (categorie: Categorie) => categorie.users)
+  @JoinTable()
+  public categories: Categorie[];
 }
 
 export default User;
