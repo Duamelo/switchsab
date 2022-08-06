@@ -26,6 +26,7 @@ export class AuthController {
 
   @Post('register')
   async register(@Body() registrationData: RegisterDto) {
+    
     const user = await this.authService.register(registrationData);
     return user;
   }
@@ -48,6 +49,7 @@ export class AuthController {
       refreshTokenCookie,
     ]);
 
+    user.password = undefined;
     return user;
   }
 

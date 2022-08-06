@@ -44,7 +44,9 @@ export class UsersService {
     const newUser = await this.usersRepository.create({
       ...userData,
     });
-    await this.usersRepository.save(newUser);
+    
+    const _user = await this.usersRepository.save(newUser);
+    console.log(_user);
     return newUser;
   }
 

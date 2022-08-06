@@ -1,28 +1,39 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { Exclude } from 'class-transformer';
+import Permission from './permissions/permission.type';
 
 @Entity()
 class User {
   @PrimaryGeneratedColumn()
   public id?: number;
 
-  @Column()
+  @Column({nullable: false})
   public nom: string;
 
-  @Column()
+  @Column({nullable: false})
   public prenoms: string;
 
   @Column({ unique: true })
   public pseudo: string;
 
-  @Column()
+  @Column({nullable: false})
+  public type: string;
+
+  @Column({nullable: false})
   public phone: string;
 
-  @Column()
+  @Column({
+    type: 'enum',
+    enum: Permission,
+    array: true,
+    default: []
+  })
+  public permissions: Permission[]
+
+  @Column({nullable: false})
   public password: string;
 
-  @Exclude()
-  public currentHashedRefreshToken?: string;
+  @Column({nullable: true})
+  public currentHashedRefreshToken: string;
 }
 
 export default User;
