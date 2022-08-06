@@ -30,7 +30,7 @@ export class CategoriesService {
       return categorie;
     }
     throw new HttpException(
-      'User with this id does not exist',
+      'Categorie with this id does not exist',
       HttpStatus.NOT_FOUND,
     );
   }

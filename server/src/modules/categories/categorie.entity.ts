@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import Groupe from '../groupes/groupe.entity';
 
 @Entity()
 class Categorie {
@@ -10,6 +11,9 @@ class Categorie {
 
     @Column({nullable: false})
     public tarif: number;
+
+    @OneToMany(() => Groupe, (groupe: Groupe) => groupe.categorie)
+    public groupes: Groupe[];
 }
 
 export default Categorie;
