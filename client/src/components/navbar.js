@@ -18,17 +18,26 @@ module.exports = {
                         m("ul", {"class":"navbar-nav me-auto mb-2 mb-lg-0"},
                             [
                             m("li", {"class":"nav-item  navbar_li"}, 
-                                m("a", {"class":"nav-link active","aria-current":"page","href":"#"}, 
-                                "Dashboard"
+                                m(m.route.Link, {
+                                    "class":"nav-link active",
+                                    "aria-current":"page",
+                                    "href":"/dashboard"}, 
+                                    "Dashboard"
                                 )
                             ),
                             m("li", {"class":"nav-item  navbar_li"}, 
-                                m("a", {"class":"nav-link active","href":"#"}, 
+                                m(m.route.Link, {
+                                    "class":"nav-link active",
+                                    "href":"/gestion_client"
+                                }, 
                                 "Gestion Client"
                                 )
                             ),
                             m("li", {"class":"nav-item  navbar_li"}, 
-                                m("a", {"class":"nav-link active","href":"#"}, 
+                                m(m.route.Link, {
+                                    "class":"nav-link active",
+                                    "href":"/configuration"
+                                }, 
                                 "Configuration"
                                 )
                             ),
@@ -44,7 +53,12 @@ module.exports = {
                                     },[
                                         m("img", {
                                             "src": "./assets/profil2.png",
-                                            "class": "profil_img"
+                                            "class": "profil_img",
+                                            onclick(e) {
+                                                window.localStorage.removeItem('jwt')
+                                                // m.mount(document.body, login)
+                                                window.location.reload()
+                                            }
                                         })
                                     ]
                                 )
