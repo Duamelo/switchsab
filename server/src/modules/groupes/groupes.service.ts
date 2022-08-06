@@ -1,5 +1,5 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { InjectRepository } from "@nestjs/typeorm";
+import { InjectRepository } from '@nestjs/typeorm';
 import Groupe from './groupe.entity';
 import { Repository } from 'typeorm';
 import groupeDto from './dto/groupeDto.dto';
@@ -13,18 +13,19 @@ export class GroupesService {
     private readonly categoriesService: CategoriesService,
   ) {}
 
-  public async  index() {
+  public async index() {
     return this.groupesRepository.find();
   }
 
-  public async create(groupeData: groupeDto){
-    const categorie = await this.categoriesService.getById(groupeData.categorieId)
-    if(categorie)
-    {
+  public async create(groupeData: groupeDto) {
+    const categorie = await this.categoriesService.getById(
+      groupeData.categorieId,
+    );
+    if (categorie) {
       const newGroupe = await this.groupesRepository.create({
         ...groupeData,
       });
-      
+
       await this.groupesRepository.save(newGroupe);
       return newGroupe;
     }
@@ -34,7 +35,7 @@ export class GroupesService {
     );
   }
 
-  public async getById(id: number){
+  public async getById(id: number) {
     const groupe = await this.groupesRepository.findOneBy({ id });
     if (groupe) {
       return groupe;
@@ -45,19 +46,20 @@ export class GroupesService {
     );
   }
 
-  public async update(id: number, groupeData: groupeDto){
-    const categorie = await this.categoriesService.getById(groupeData.categorieId)
+  public async update(id: number, groupeData: groupeDto) {
+    const categorie = await this.categoriesService.getById(
+      groupeData.categorieId,
+    );
 
-    if(categorie)
-      return this.groupesRepository.update(id, {...groupeData});
-    
+    if (categorie) return this.groupesRepository.update(id, { ...groupeData });
+
     throw new HttpException(
       'Categorie with this id does not exist',
       HttpStatus.NOT_FOUND,
     );
   }
 
-  public async delete(id: number){
+  public async delete(id: number) {
     return this.groupesRepository.delete(id);
   }
 }
