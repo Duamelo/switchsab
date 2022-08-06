@@ -4,11 +4,11 @@ import Poste from "../postes/poste.entity";
 
 @Entity()
 class Groupe {
-    @PrimaryGeneratedColumn()
-    public id?: number;
+  @PrimaryGeneratedColumn()
+  public id?: number;
 
-    @Column({nullable: false})
-    public nom: string;
+  @Column({ nullable: false })
+  public nom: string;
 
     @ManyToOne(() => Categorie, (categorie: Categorie) => categorie.groupes)
     public categorie: Categorie;

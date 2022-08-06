@@ -1,6 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
 
-export class CreateUserDto {
+export class UpdateUserDto {
   @IsNotEmpty()
   readonly nom: string;
 
@@ -17,4 +17,4 @@ export class CreateUserDto {
   password: string;
 }
 
-export default CreateUserDto;
+export default UpdateUserDto;
