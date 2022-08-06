@@ -5,6 +5,7 @@ import User from 'src/modules/users/user.entity';
 import Categorie from '../modules/categories/categorie.entity';
 import Groupe from '../modules/groupes/groupe.entity';
 import Poste from '../modules/postes/poste.entity';
+import Souscription from 'src/modules/souscriptions/souscription.entity';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import Poste from '../modules/postes/poste.entity';
         username: configService.get('POSTGRES_USER'),
         password: configService.get('POSTGRES_PASSWORD'),
         database: configService.get('POSTGRES_DB'),
-        entities: [User, Categorie, Groupe, Poste],
+        entities: [User, Categorie, Groupe, Poste, Souscription],
         synchronize: true,
         autoLoadEntities: true,
       }),

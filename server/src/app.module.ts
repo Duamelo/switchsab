@@ -8,6 +8,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { GroupesModule } from './modules/groupes/groupes.module';
 import { PostesModule } from './modules/postes/postes.module';
+import { SouscriptionsModule } from './modules/souscriptions/souscriptions.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -27,6 +28,7 @@ import { PostesModule } from './modules/postes/postes.module';
     CategoriesModule,
     GroupesModule,
     PostesModule,
+    SouscriptionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

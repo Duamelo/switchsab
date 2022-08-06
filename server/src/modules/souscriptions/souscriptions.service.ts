@@ -34,15 +34,23 @@ export class SouscriptionsService {
           categorieId: categorie.id
         }
       });
-
+      var dureeAncienne = 0;
+      
       if(oldSouscriptions)
       {
-        
+        oldSouscriptions.forEach(oldSouscription => {
+          dureeAncienne = oldSouscription.dureeRestante;
+        });
       }
+
+      var montant = categorie.tarif * souscriptionData.duree;
+      var dureeRestante = souscriptionData.duree + dureeAncienne;
       const newSouscription = await this.souscriptionsRepository.create({
         ...souscriptionData,
+        montant,
+        dureeRestante
       });
-      
+
       await this.souscriptionsRepository.save(newSouscription);
       return newSouscription;
     }
@@ -61,21 +69,5 @@ export class SouscriptionsService {
       'Souscription with this id does not exist',
       HttpStatus.NOT_FOUND,
     );
-  }
-
-  public async update(id: number, souscriptionData: souscriptionDto){
-    const categorie = await this.categoriesRepository.find({where: {id: souscriptionData.categorieId}})
-
-    if(categorie)
-      return this.souscriptionsRepository.update(id, {...souscriptionData});
-    
-    throw new HttpException(
-      'Categorie with this id does not exist',
-      HttpStatus.NOT_FOUND,
-    );
-  }
-
-  public async delete(id: number){
-    return this.souscriptionsRepository.delete(id);
   }
 }

@@ -2,7 +2,7 @@ import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "t
 
 
 @Entity()
-class Poste {
+class Souscription {
     @PrimaryGeneratedColumn()
     public id?: number;
 
@@ -20,9 +20,6 @@ class Poste {
 
     @Column({nullable: false})
     public dureeRestante: number;
-
-    @Column({nullable: false})
-    public dureeAncienne: number;
 }
 
-export default Poste;
+export default Souscription;

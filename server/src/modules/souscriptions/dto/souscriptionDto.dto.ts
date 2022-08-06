@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
-export default class posteDto {
+export default class souscriptionDto {
     @IsNumber()
     @IsNotEmpty({message: "this client must be define"})
     clientId: number;
