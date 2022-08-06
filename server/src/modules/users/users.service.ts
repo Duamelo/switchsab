@@ -45,8 +45,7 @@ export class UsersService {
       ...userData,
     });
     
-    const _user = await this.usersRepository.save(newUser);
-    console.log(_user);
+    await this.usersRepository.save(newUser);
     return newUser;
   }
 
