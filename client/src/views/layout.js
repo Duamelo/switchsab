@@ -9,7 +9,7 @@ module.exports = {
                 [
                     m(navbar),
                     m("hr"),
-                    m(menu_dashboard),
+                    m.route.get() == '/dashboard' ? m(menu_dashboard) : null,
                     m("div", {
                         "class": "row"
                     }, [
