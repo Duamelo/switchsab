@@ -4,6 +4,7 @@ import Groupe from './groupe.entity';
 import { Repository } from 'typeorm';
 import groupeDto from './dto/groupeDto.dto';
 import Categorie from '../categories/categorie.entity';
+import groupeCreateDto from './dto/groupeCreateDto.dto';
 
 @Injectable()
 export class GroupesService {
@@ -18,12 +19,17 @@ export class GroupesService {
     return this.groupesRepository.find();
   }
 
-  public async create(groupeData: groupeDto){
-    const categorie = await this.categoriesRepository.find({where: {id: groupeData.categorieId}})
+  public async create(groupeData: groupeCreateDto){
+    const categorie = await this.categoriesRepository.findOne({where: {id: groupeData.categorieId}})
     if(categorie)
     {
+      const groupe : groupeDto = groupeData;
+
       const newGroupe = await this.groupesRepository.create({
-        ...groupeData,
+        ...groupe,
+        categorie: {
+          id : categorie.id     
+        }
       });
 
       await this.groupesRepository.save(newGroupe);
@@ -47,13 +53,12 @@ export class GroupesService {
   }
 
   public async update(id: number, groupeData: groupeDto){
-    const categorie = await this.categoriesRepository.find({where: {id: groupeData.categorieId}})
-  
-    if (categorie) return this.groupesRepository.update(id, { ...groupeData });
-
-    throw new HttpException(
-      'Categorie with this id does not exist',
-      HttpStatus.NOT_FOUND,
+    
+    return this.groupesRepository.update(
+      id, 
+      {
+        ...groupeData,
+      }
     );
   }
 

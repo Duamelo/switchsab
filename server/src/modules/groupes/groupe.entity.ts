@@ -10,11 +10,11 @@ class Groupe {
   @Column({ nullable: false })
   public nom: string;
 
-    @ManyToOne(() => Categorie, (categorie: Categorie) => categorie.groupes)
-    public categorie: Categorie;
+  @ManyToOne(() => Categorie, (categorie: Categorie) => categorie.groupes)
+  public categorie: Categorie;
 
-    @OneToMany(() => Poste, (poste: Poste) => poste.groupe)
-    public postes: Poste[];
+  @OneToMany(() => Poste, (poste: Poste) => poste.groupe)
+  public postes: Poste[];
 }
 
 export default Groupe;

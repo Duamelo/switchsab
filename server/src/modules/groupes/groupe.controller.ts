@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import JwtAuthGuard from '../auth/jwt-auth.guard';
 import { GroupesService } from './groupes.service';
+import groupeCreateDto from './dto/groupeCreateDto.dto';
 import groupeDto from './dto/groupeDto.dto';
 
 @Controller('groupes')
@@ -36,7 +37,7 @@ export class GroupeController {
     //@UseGuards(PermissionGuard(GroupesPermission.CreateGroupes))
     @UseGuards(JwtAuthGuard)
     @Post()
-    async create(@Body() groupeData: groupeDto) {
+    async create(@Body() groupeData: groupeCreateDto) {
      return this.groupesService.create(groupeData);
     }
 
