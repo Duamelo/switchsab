@@ -59,9 +59,7 @@ export class GroupesService {
     if(categorie)
     {
       groupeData.categorieId = undefined;
-
-      console.log(groupeData);
-
+      
       this.groupesRepository.update(
         id, 
         {
