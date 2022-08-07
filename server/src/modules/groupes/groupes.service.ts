@@ -75,7 +75,7 @@ export class GroupesService {
       if(groupe)
       {
         groupe.categorie = categorie;
-        groupe.save();
+        await groupe.save();
 
         return groupe;
       }

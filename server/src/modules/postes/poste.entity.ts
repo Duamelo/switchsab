@@ -1,8 +1,8 @@
-import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
 import Groupe from "../groupes/groupe.entity";
 
 @Entity()
-class Poste {
+class Poste extends BaseEntity {
     @PrimaryGeneratedColumn()
     public id?: number;
 

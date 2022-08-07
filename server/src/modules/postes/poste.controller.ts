@@ -35,7 +35,7 @@ export class PosteController {
     //@UseGuards(PermissionGuard(PostesPermission.UpdatePostes))
     @UseGuards(JwtAuthGuard)
     @Put('/:id')
-    async update(@Body() posteData: posteDto, @Param('id') id: number) {
+    async update(@Body() posteData: posteCreateDto, @Param('id') id: number) {
       return this.postesService.update(id, posteData);
     }
 

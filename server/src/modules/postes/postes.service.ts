@@ -54,10 +54,37 @@ export class PostesService {
     );
   }
 
-  public async update(id: number, posteData: posteDto){
+  public async update(id: number, posteData: posteCreateDto){
     
-    return this.postesRepository.update(id, {...posteData});
+    const groupe = await this.groupesRepository.findOne({where: {id: posteData.groupeId}})
     
+    if(groupe)
+    {
+      posteData.groupeId = undefined;
+
+      this.postesRepository.update(id, {...posteData});
+      
+      var poste;
+      poste = await this.getById(id);
+
+      if(poste)
+      {
+        poste.groupe = groupe;
+        await poste.save();
+
+        return poste;
+      }
+
+      throw new HttpException(
+        'Poste with this id does not exist',
+        HttpStatus.NOT_FOUND,
+      );    
+
+    }
+    throw new HttpException(
+      'Groupe with this id does not exist',
+      HttpStatus.NOT_FOUND,
+    );    
   }
 
   public async delete(id: number){
