@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
-export default class posteDto {
+export default class posteCreateDto {
     @IsString()
     @IsNotEmpty({message: "this nom must be define"})
     nom: string;
@@ -9,5 +9,8 @@ export default class posteDto {
     @IsNotEmpty({message: "this status must be define"})
     status: number;
     
+    @IsNumber()
+    @IsNotEmpty({message: "this id must be define"})
+    groupeId: number;
   }
   

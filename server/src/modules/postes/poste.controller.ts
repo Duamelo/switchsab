@@ -2,6 +2,7 @@ import { Body, ClassSerializerInterceptor, Controller, Delete, Get, Param, Post,
 import JwtAuthGuard from "../auth/jwt-auth.guard";
 import { PostesService } from "./postes.service";
 import posteDto from './dto/posteDto.dto';
+import posteCreateDto from "./dto/posteCreateDto.dto";
 
 @Controller('postes')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -27,7 +28,7 @@ export class PosteController {
     //@UseGuards(PermissionGuard(PostesPermission.CreatePostes))
     @UseGuards(JwtAuthGuard)
     @Post()
-    async create(@Body() posteData: posteDto) {
+    async create(@Body() posteData: posteCreateDto) {
      return this.postesService.create(posteData);
     }
 

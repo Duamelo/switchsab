@@ -4,6 +4,7 @@ import Poste from './poste.entity';
 import { Repository } from 'typeorm';
 import posteDto from './dto/posteDto.dto';
 import Groupe from '../groupes/groupe.entity';
+import posteCreateDto from './dto/posteCreateDto.dto';
 
 
 @Injectable()
@@ -20,12 +21,17 @@ export class PostesService {
     return this.postesRepository.find();
   }
 
-  public async create(posteData: posteDto){
-    const groupe = await this.groupesRepository.find({where: {id: posteData.groupeId}})
+  public async create(posteData: posteCreateDto){
+    const groupe = await this.groupesRepository.findOne({where: {id: posteData.groupeId}})
     if(groupe)
     {
+      const poste : posteDto = posteData;
+
       const newPoste = await this.postesRepository.create({
-        ...posteData,
+        ...poste,
+        groupe: {
+          id : groupe.id
+        }
       });
       
       await this.postesRepository.save(newPoste);
@@ -49,15 +55,9 @@ export class PostesService {
   }
 
   public async update(id: number, posteData: posteDto){
-    const groupe = await this.groupesRepository.find({where: {id: posteData.groupeId}})
-
-    if(groupe)
-      return this.postesRepository.update(id, {...posteData});
     
-    throw new HttpException(
-      'Groupe with this id does not exist',
-      HttpStatus.NOT_FOUND,
-    );
+    return this.postesRepository.update(id, {...posteData});
+    
   }
 
   public async delete(id: number){
