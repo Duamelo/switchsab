@@ -44,7 +44,7 @@ export class GroupeController {
   //@UseGuards(PermissionGuard(GroupesPermission.UpdateGroupes))
   @UseGuards(JwtAuthGuard)
   @Put('/:id')
-  async update(@Body() groupeData: groupeDto, @Param('id') id: number) {
+  async update(@Body() groupeData: groupeCreateDto, @Param('id') id: number) {
     return this.groupesService.update(id, groupeData);
   }
 

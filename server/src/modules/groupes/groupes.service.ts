@@ -52,13 +52,42 @@ export class GroupesService {
     );
   }
 
-  public async update(id: number, groupeData: groupeDto){
+  public async update(id: number, groupeData: groupeCreateDto){
     
-    return this.groupesRepository.update(
-      id, 
+    const categorie = await this.categoriesRepository.findOne({where: {id: groupeData.categorieId}})
+    
+    if(categorie)
+    {
+      groupeData.categorieId = undefined;
+
+      console.log(groupeData);
+
+      this.groupesRepository.update(
+        id, 
+        {
+          ...groupeData,
+        }
+      );
+      
+      var groupe;
+      groupe = await this.getById(id);
+
+      if(groupe)
       {
-        ...groupeData,
+        groupe.categorie = categorie;
+        groupe.save();
+
+        return groupe;
       }
+      throw new HttpException(
+        'Groupe with this id does not exist',
+        HttpStatus.NOT_FOUND,
+      );
+
+    }
+    throw new HttpException(
+      'Categorie with this id does not exist',
+      HttpStatus.NOT_FOUND,
     );
   }
 
