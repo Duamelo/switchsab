@@ -3,25 +3,25 @@ import { InjectRepository } from '@nestjs/typeorm';
 import Groupe from './groupe.entity';
 import { Repository } from 'typeorm';
 import groupeDto from './dto/groupeDto.dto';
-import { CategoriesService } from '../categories/categories.service';
+import Categorie from '../categories/categorie.entity';
 
 @Injectable()
 export class GroupesService {
   constructor(
     @InjectRepository(Groupe)
     private groupesRepository: Repository<Groupe>,
-    private readonly categoriesService: CategoriesService,
+    @InjectRepository(Categorie)
+    private categoriesRepository: Repository<Categorie>,
   ) {}
 
   public async index() {
     return this.groupesRepository.find();
   }
 
-  public async create(groupeData: groupeDto) {
-    const categorie = await this.categoriesService.getById(
-      groupeData.categorieId,
-    );
-    if (categorie) {
+  public async create(groupeData: groupeDto){
+    const categorie = await this.categoriesRepository.find({where: {id: groupeData.categorieId}})
+    if(categorie)
+    {
       const newGroupe = await this.groupesRepository.create({
         ...groupeData,
       });
@@ -46,11 +46,9 @@ export class GroupesService {
     );
   }
 
-  public async update(id: number, groupeData: groupeDto) {
-    const categorie = await this.categoriesService.getById(
-      groupeData.categorieId,
-    );
-
+  public async update(id: number, groupeData: groupeDto){
+    const categorie = await this.categoriesRepository.find({where: {id: groupeData.categorieId}})
+  
     if (categorie) return this.groupesRepository.update(id, { ...groupeData });
 
     throw new HttpException(

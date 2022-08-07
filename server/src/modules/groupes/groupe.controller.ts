@@ -19,12 +19,12 @@ import groupeDto from './dto/groupeDto.dto';
 export class GroupeController {
   constructor(private readonly groupesService: GroupesService) {}
 
-  //@UseGuards(PermissionGuard(GroupesPermission.ReadGroupes))
-  @UseGuards(JwtAuthGuard)
-  @Get('')
-  async index() {
-    return this.groupesService.index();
-  }
+    //@UseGuards(PermissionGuard(GroupesPermission.ReadGroupes))
+    @UseGuards(JwtAuthGuard)
+    @Get()
+    async index() { 
+      return this.groupesService.index();
+    }
 
   //@UseGuards(PermissionGuard(GroupesPermission.ReadGroupes))
   @UseGuards(JwtAuthGuard)
@@ -33,12 +33,12 @@ export class GroupeController {
     return this.groupesService.getById(id);
   }
 
-  //@UseGuards(PermissionGuard(GroupesPermission.CreateGroupes))
-  @UseGuards(JwtAuthGuard)
-  @Post('')
-  async create(@Body() groupeData: groupeDto) {
-    return this.groupesService.create(groupeData);
-  }
+    //@UseGuards(PermissionGuard(GroupesPermission.CreateGroupes))
+    @UseGuards(JwtAuthGuard)
+    @Post()
+    async create(@Body() groupeData: groupeDto) {
+     return this.groupesService.create(groupeData);
+    }
 
   //@UseGuards(PermissionGuard(GroupesPermission.UpdateGroupes))
   @UseGuards(JwtAuthGuard)

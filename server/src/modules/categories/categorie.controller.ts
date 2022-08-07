@@ -21,12 +21,12 @@ import categorieDto from './dto/categorieDto.dto';
 export class CategorieController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
-  //@UseGuards(PermissionGuard(CategoriesPermission.ReadCategories))
-  @UseGuards(JwtAuthGuard)
-  @Get('')
-  async index() {
-    return this.categoriesService.index();
-  }
+    //@UseGuards(PermissionGuard(CategoriesPermission.ReadCategories))
+    @UseGuards(JwtAuthGuard)
+    @Get()
+    async index() { 
+      return this.categoriesService.index();
+    }
 
   //@UseGuards(PermissionGuard(CategoriesPermission.ReadCategories))
   @UseGuards(JwtAuthGuard)
@@ -35,12 +35,12 @@ export class CategorieController {
     return this.categoriesService.getById(id);
   }
 
-  //@UseGuards(PermissionGuard(CategoriesPermission.CreateCategories))
-  @UseGuards(JwtAuthGuard)
-  @Post('')
-  async create(@Body() categorieData: categorieDto) {
-    return this.categoriesService.create(categorieData);
-  }
+    //@UseGuards(PermissionGuard(CategoriesPermission.CreateCategories))
+    @UseGuards(JwtAuthGuard)
+    @Post()
+    async create(@Body() categorieData: categorieDto) {
+     return this.categoriesService.create(categorieData);
+    }
 
   //@UseGuards(PermissionGuard(CategoriesPermission.UpdateCategories))
   @UseGuards(JwtAuthGuard)
