@@ -5,12 +5,9 @@ export default class souscriptionDto {
     @IsNotEmpty({message: "this client must be define"})
     clientId: number;
 
-    @IsNumber()
-    @IsNotEmpty({message: "this categorie must be define"})
-    categorieId: number;
     
     @IsNumber()
-    @IsNotEmpty({message: "this duree must be define"})
-    duree: number;
+    @IsNotEmpty({message: "this tarif must be define"})
+    tarifId: number;
   }
   

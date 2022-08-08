@@ -10,7 +10,7 @@ const Permission = {
   ...CategoriesPermission,
   ...GroupesPermission,
   ...SouscriptionsPermission,
-  ...TarifsPermission
+  ...TarifsPermission,
   ...AutresPermission
 }
  

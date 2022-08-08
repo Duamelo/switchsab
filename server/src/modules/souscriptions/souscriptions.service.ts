@@ -3,8 +3,8 @@ import { InjectRepository } from "@nestjs/typeorm";
 import Souscription from './souscription.entity';
 import { Repository } from 'typeorm';
 import souscriptionDto from './dto/souscriptionDto.dto';
-import Categorie from '../categories/categorie.entity';
 import User from '../users/user.entity';
+import Tarif from '../tarifs/tarif.entity';
 
 
 @Injectable()
@@ -12,8 +12,8 @@ export class SouscriptionsService {
   constructor(
     @InjectRepository(Souscription)
     private souscriptionsRepository: Repository<Souscription>,
-    @InjectRepository(Categorie)
-    private categoriesRepository: Repository<Categorie>,
+    @InjectRepository(Tarif)
+    private tarifsRepository: Repository<Tarif>,
     @InjectRepository(User)
     private usersRepository: Repository<User>,
 
@@ -24,14 +24,22 @@ export class SouscriptionsService {
   }
 
   public async create(souscriptionData: souscriptionDto){
-    const categorie = await this.categoriesRepository.findOne({where: {id: souscriptionData.categorieId}})
+    const tarif = await this.tarifsRepository.findOne({
+      where: {
+        id: souscriptionData.tarifId
+      }, 
+      relations:{
+        groupe: true
+      }
+    })
     const client = await this.usersRepository.findOne({where: {id: souscriptionData.clientId}})
-    if(categorie && client)
+    if(tarif && client)
     {
+
       const oldSouscriptions = await this.souscriptionsRepository.find({
         where: {
           clientId: client.id,
-          categorieId: categorie.id
+          groupeId: tarif.groupe.id
         }
       });
       var dureeAncienne = 0;
@@ -43,19 +51,25 @@ export class SouscriptionsService {
         });
       }
 
-      var montant = categorie.tarif * souscriptionData.duree;
-      var dureeRestante = souscriptionData.duree + dureeAncienne;
+      var montant = tarif.montant;
+      var dureeRestante = tarif.duree + dureeAncienne;
+      var groupeId = tarif.groupe.id;
+      var duree = tarif.duree;
+      var clientId = client.id;
+
       const newSouscription = await this.souscriptionsRepository.create({
-        ...souscriptionData,
+        clientId,
+        groupeId,
+        duree,
         montant,
-        dureeRestante
+        dureeRestante,
       });
 
       await this.souscriptionsRepository.save(newSouscription);
       return newSouscription;
     }
     throw new HttpException(
-      'Categorie or client with this id does not exist',
+      'Tarif or client with this id does not exist',
       HttpStatus.NOT_FOUND,
     );
   }

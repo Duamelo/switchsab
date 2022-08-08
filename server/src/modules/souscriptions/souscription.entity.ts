@@ -10,7 +10,7 @@ class Souscription {
     public clientId: number;
 
     @Column({nullable: false})
-    public categorieId: number;
+    public groupeId: number;
 
     @Column({nullable: false})
     public montant: number;
