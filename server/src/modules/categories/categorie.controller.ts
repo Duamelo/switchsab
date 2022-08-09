@@ -14,19 +14,19 @@ import JwtAuthGuard from '../auth/jwt-auth.guard';
 // import PermissionGuard from '../shared/permission.guard';
 // import CategoriesPermission from '../users/permissions/categoriesPermission.enum';
 import { CategoriesService } from './categories.service';
-import categorieDto from './dto/categorieDto.dto';
+import categorieDto from './dto/categorie.dto';
 
 @Controller('categories')
 @UseInterceptors(ClassSerializerInterceptor)
 export class CategorieController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
-    //@UseGuards(PermissionGuard(CategoriesPermission.ReadCategories))
-    @UseGuards(JwtAuthGuard)
-    @Get()
-    async index() { 
-      return this.categoriesService.index();
-    }
+  //@UseGuards(PermissionGuard(CategoriesPermission.ReadCategories))
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  async index() {
+    return this.categoriesService.index();
+  }
 
   //@UseGuards(PermissionGuard(CategoriesPermission.ReadCategories))
   @UseGuards(JwtAuthGuard)
@@ -35,12 +35,12 @@ export class CategorieController {
     return this.categoriesService.getById(id);
   }
 
-    //@UseGuards(PermissionGuard(CategoriesPermission.CreateCategories))
-    @UseGuards(JwtAuthGuard)
-    @Post()
-    async create(@Body() categorieData: categorieDto) {
-     return this.categoriesService.create(categorieData);
-    }
+  //@UseGuards(PermissionGuard(CategoriesPermission.CreateCategories))
+  @UseGuards(JwtAuthGuard)
+  @Post()
+  async create(@Body() categorieData: categorieDto) {
+    return this.categoriesService.create(categorieData);
+  }
 
   //@UseGuards(PermissionGuard(CategoriesPermission.UpdateCategories))
   @UseGuards(JwtAuthGuard)

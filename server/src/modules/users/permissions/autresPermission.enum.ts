@@ -1,5 +1,5 @@
 enum AutresPermission {
-    GenererRapport = 'GenererRapport'
-  }
-   
-  export default AutresPermission;
+  GenererRapport = 'GenererRapport',
+}
+
+export default AutresPermission;

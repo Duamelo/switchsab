@@ -1,8 +1,8 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { InjectRepository } from "@nestjs/typeorm";
+import { InjectRepository } from '@nestjs/typeorm';
 import Categorie from './categorie.entity';
 import { Repository } from 'typeorm';
-import categorieDto from './dto/categorieDto.dto';
+import categorieDto from './dto/categorie.dto';
 
 @Injectable()
 export class CategoriesService {
@@ -11,20 +11,20 @@ export class CategoriesService {
     private categoriesRepository: Repository<Categorie>,
   ) {}
 
-  public async  index() {
+  public async index() {
     return this.categoriesRepository.find();
   }
 
-  public async create(categorieData: categorieDto){
+  public async create(categorieData: categorieDto) {
     const newCategorie = await this.categoriesRepository.create({
       ...categorieData,
     });
-    
+
     await this.categoriesRepository.save(newCategorie);
     return newCategorie;
   }
 
-  public async getById(id: number){
+  public async getById(id: number) {
     const categorie = await this.categoriesRepository.findOneBy({ id });
     if (categorie) {
       return categorie;
@@ -35,13 +35,13 @@ export class CategoriesService {
     );
   }
 
-  public async update(id: number, categorieData: categorieDto){
+  public async update(id: number, categorieData: categorieDto) {
     return this.categoriesRepository.update(id, {
-      ...categorieData
+      ...categorieData,
     });
   }
 
-  public async delete(id: number){
+  public async delete(id: number) {
     return this.categoriesRepository.delete(id);
   }
 }

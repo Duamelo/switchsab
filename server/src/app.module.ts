@@ -29,7 +29,7 @@ import { TarifsModule } from './modules/tarifs/tarifs.module';
     CategoriesModule,
     GroupesModule,
     PostesModule,
-    SouscriptionsModule,
+    // SouscriptionsModule,
     TarifsModule,
   ],
   controllers: [AppController],

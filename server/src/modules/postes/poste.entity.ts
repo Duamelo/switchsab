@@ -1,20 +1,25 @@
-import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
-import Groupe from "../groupes/groupe.entity";
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  BaseEntity,
+} from 'typeorm';
+import Groupe from '../groupes/groupe.entity';
 
 @Entity()
 class Poste extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    public id?: number;
+  @PrimaryGeneratedColumn()
+  public id?: number;
 
-    @Column({nullable: false})
-    public nom: string;
+  @Column({ nullable: false })
+  public nom: string;
 
-    @Column({nullable: false})
-    public status: number;
+  @Column({ nullable: false })
+  public status: number;
 
-    @ManyToOne(() => Groupe, (groupe: Groupe) => groupe.postes)
-    public groupe: Groupe;
-
+  @ManyToOne(() => Groupe, (groupe: Groupe) => groupe.postes)
+  public groupe: Groupe;
 }
 
 export default Poste;

@@ -1,11 +1,10 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { InjectRepository } from "@nestjs/typeorm";
+import { InjectRepository } from '@nestjs/typeorm';
 import Souscription from './souscription.entity';
 import { Repository } from 'typeorm';
-import souscriptionDto from './dto/souscriptionDto.dto';
+import souscriptionDto from './dto/souscription.dto';
 import Categorie from '../categories/categorie.entity';
 import User from '../users/user.entity';
-
 
 @Injectable()
 export class SouscriptionsService {
@@ -16,39 +15,41 @@ export class SouscriptionsService {
     private categoriesRepository: Repository<Categorie>,
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-
   ) {}
 
-  public async  index() {
+  public async index() {
     return this.souscriptionsRepository.find();
   }
 
-  public async create(souscriptionData: souscriptionDto){
-    const categorie = await this.categoriesRepository.findOne({where: {id: souscriptionData.categorieId}})
-    const client = await this.usersRepository.findOne({where: {id: souscriptionData.clientId}})
-    if(categorie && client)
-    {
+  public async create(souscriptionData: souscriptionDto) {
+    let dureeAncienne = 0;
+
+    const categorie = await this.categoriesRepository.findOne({
+      where: { id: souscriptionData.categorieId },
+    });
+    const client = await this.usersRepository.findOne({
+      where: { id: souscriptionData.clientId },
+    });
+    if (categorie && client) {
       const oldSouscriptions = await this.souscriptionsRepository.find({
         where: {
           clientId: client.id,
-          categorieId: categorie.id
-        }
+          categorieId: categorie.id,
+        },
       });
-      var dureeAncienne = 0;
-      
-      if(oldSouscriptions)
-      {
-        oldSouscriptions.forEach(oldSouscription => {
+
+      if (oldSouscriptions) {
+        oldSouscriptions.forEach((oldSouscription) => {
           dureeAncienne = oldSouscription.dureeRestante;
         });
       }
 
-      var montant = categorie.tarif * souscriptionData.duree;
-      var dureeRestante = souscriptionData.duree + dureeAncienne;
+      const montant = categorie.tarif * souscriptionData.duree;
+      const dureeRestante = souscriptionData.duree + dureeAncienne;
       const newSouscription = await this.souscriptionsRepository.create({
         ...souscriptionData,
         montant,
-        dureeRestante
+        dureeRestante,
       });
 
       await this.souscriptionsRepository.save(newSouscription);
@@ -60,7 +61,7 @@ export class SouscriptionsService {
     );
   }
 
-  public async getById(id: number){
+  public async getById(id: number) {
     const souscription = await this.souscriptionsRepository.findOneBy({ id });
     if (souscription) {
       return souscription;
