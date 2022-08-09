@@ -74,14 +74,25 @@ module.exports = {
               "class": "card"
             },[
               m("div", {
-                "class": ""
+                "class": "header_login"
               }, [
-                m("a", {"class":"navbar-brand","href":"#"}, 
-                  m("img", {"src":"/docs/5.2/assets/brand/bootstrap-logo.svg","alt":"","width":"30","height":"24"})
-                ),
-                m("h6", {
-                  "class": "text-center"
-                }, "SWITCHSAB")
+                m("a", {"class":"navbar-brand","href":"#"},[
+                  m("img",{
+                      "class": "switchsab_logo",
+                      "src": "./assets/logo.jpeg"
+                  }),
+                  m("span", {
+                      "class": "switch"
+                  }, 
+                  " SWITCH "
+                  ),
+                  m("span", {
+                      "class": "sab"
+                  }, 
+                  "SAB"
+                  ),
+              ]
+              ),
               ]),
               m("div", {
                 "class": "card-body"
@@ -140,9 +151,9 @@ module.exports = {
                       ]
                     ),
                       m("button", {
-                        "class":"btn btn-primary btn_login mb-3",
+                        "class":"btn btn_login mb-3",
                         "type":"submit",
-                        disabled: !credential.canSubmit(),
+                        // disabled: !credential.canSubmit(),
                         onclick: credential.register
                       }, 
                         "S'enregistrer"
@@ -151,7 +162,7 @@ module.exports = {
                         [
                           " Vous avez un compte ? ",
                           m(m.route.Link, {
-                            "class":"",
+                            "class":"text-dark",
                             "href":"/login"
                             }, 
                             "Se connecter"

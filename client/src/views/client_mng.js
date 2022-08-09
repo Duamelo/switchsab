@@ -15,7 +15,7 @@ module.exports = {
 
                 m("table", {"class":"table"},
                 [
-                    m("thead", 
+                    m("thead.table-secondary", 
                     m("tr",
                         [
                         m("th", {"scope":"col"}, 

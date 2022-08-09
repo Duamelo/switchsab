@@ -6,6 +6,18 @@
     width: 100%;
 }
 
+.btn_login{
+    background-color: #f26724;
+    color: white;
+}
+
+
+.btn_login:hover{
+    background-color: #f26724;
+}
+
+
+
 .nav_icon{
     
 }
@@ -35,4 +47,108 @@
 .computer{
     position: relative;
     left: 50px;
+}
+
+.c_group_button{
+    width: 100%;
+}
+
+.sidebar_poste{
+    position: relative;
+    top: 120px;
+    width: 80%;
+}
+
+.sidebar_tarif{
+    position: relative;
+    width: 100%;
+}
+
+.sidebar_groupe{
+    position: relative;
+    width: 100%;
+}
+
+.hr_delimiter_poste{
+    flex-direction: column;
+}
+
+.sidebar_admin{
+    position: relative;
+    width: 100%;
+}
+
+.punition{
+    background-color: white;
+    width: 20%;
+}
+
+.sidebar_client{
+    position: relative;
+    width: 100%;
+}
+
+.t_sidebar_dash{
+    position: relative;
+    width: 100%;
+}
+
+.icon_dash_profil{
+    width: 15%;
+}
+
+.icon_dash_clock{
+    width: 15%;
+}
+
+.nav-pills .nav-link.active{
+    background-color: #f26724;
+}
+
+.btn_color{
+    background-color: #f26724;
+    color: white;
+}
+
+.btn-outline-primary{
+    border-color: #f26724;
+    color: black;
+}
+
+.btn-outline-primary:hover{
+    background-color: #f26724;
+    border-color: #f26724;
+}
+
+.xbox_img{
+    position: absolute;
+    top: 6px;
+    left: 60px;
+}
+
+.manette_img{
+    position: absolute;
+    top: 30px;
+    left: 60px;
+}
+
+
+.switch{
+    font-weight: bolder;
+    color: #2c3592;
+}
+
+.sab{
+    font-weight: bolder;
+    color: #f26724;
+}
+
+.switchsab_logo{
+    width: 30px;
+}
+
+.header_login{
+    position: relative;
+    text-align: center;
+    margin-top: 10px;
 }

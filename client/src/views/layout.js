@@ -1,5 +1,5 @@
 var m = require('mithril');
-const menu_dashboard = require('../components/menus/menu_dashboard');
+const {menu_dashboard} = require('../components/menus/menu_dashboard');
 const navbar = require('../components/navbar');
 
 module.exports = {

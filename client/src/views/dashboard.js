@@ -1,5 +1,7 @@
 var m = require('mithril');
-const postes = require('../components/postes');
+const list_postes = require('../components/list_postes');
+const { t_menu_bar } = require('../components/menus/menu_dashboard');
+const table_postes = require('../components/postes');
 const tabs_dashboard_group = require('../components/tabs/tabs_dashboard_group');
 
 
@@ -11,12 +13,12 @@ module.exports = {
             }, 
             [
                 m("h6", {
-                    "class": ""
+                    "class": "text-dark"
                 },
                     "Mon tableau de bord"
                 ),
                 m(tabs_dashboard_group),
-                m(postes)
+                 !t_menu_bar.state ? m(table_postes) : m(list_postes)
             ])
         ]
     }

@@ -1,6 +1,18 @@
 var m = require('mithril');
 
-module.exports = {
+t_menu_bar = {
+    _state: "",
+
+    set state(value){
+        this._state = value;
+    },
+
+    get state(){
+        return this._state;
+    }
+}
+
+const menu_dashboard = {
     view: function(vnode){
         return [
                m("div", {
@@ -16,7 +28,10 @@ module.exports = {
                                    },[
                                         m("img", {
                                             "class": "nav_icon",
-                                            "src": "./assets/list_display2.png"
+                                            "src": "./assets/list_display2.png",
+                                            onclick: function(e){
+                                                t_menu_bar.state = !t_menu_bar.state;
+                                            }
                                         }),
                                    ]),
                                     m("span", {"class":" me-3"}, 
@@ -63,3 +78,5 @@ module.exports = {
         ]
     }
 }
+
+module.exports = {t_menu_bar, menu_dashboard};

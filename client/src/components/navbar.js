@@ -7,8 +7,22 @@ module.exports = {
             m("nav", {"class":"navbar navbar-expand-lg"}, 
                 m("div", {"class":"container-fluid"},
                     [
-                    m("a", {"class":"navbar-brand","href":"#"}, 
-                        "SWITCHSAB"
+                    m("a", {"class":"navbar-brand","href":"#"},[
+                        m("img",{
+                            "class": "switchsab_logo",
+                            "src": "./assets/logo.jpeg"
+                        }),
+                        m("span", {
+                            "class": "switch"
+                        }, 
+                        "SWITCH "
+                        ),
+                        m("span", {
+                            "class": "sab"
+                        }, 
+                        "SAB"
+                        ),
+                    ]
                     ),
                     m("button", {"class":"navbar-toggler","type":"button","data-bs-toggle":"collapse","data-bs-target":"#navbarSupportedContent","aria-controls":"navbarSupportedContent","aria-expanded":"false","aria-label":"Toggle navigation"}, 
                         m("span", {"class":"navbar-toggler-icon"})
