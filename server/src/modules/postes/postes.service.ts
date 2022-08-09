@@ -1,10 +1,11 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectRepository } from "@nestjs/typeorm";
 import Poste from './poste.entity';
 import { Repository } from 'typeorm';
-import posteDto from './dto/poste.dto';
+import posteDto from './dto/posteDto.dto';
 import Groupe from '../groupes/groupe.entity';
-import posteCreateDto from './dto/create-poste.dto';
+import posteCreateDto from './dto/posteCreateDto.dto';
+
 
 @Injectable()
 export class PostesService {
@@ -13,26 +14,26 @@ export class PostesService {
     private postesRepository: Repository<Poste>,
     @InjectRepository(Groupe)
     private groupesRepository: Repository<Groupe>,
+    
   ) {}
 
-  public async index() {
+  public async  index() {
     return this.postesRepository.find();
   }
 
-  public async create(posteData: posteCreateDto) {
-    const groupe = await this.groupesRepository.findOne({
-      where: { id: posteData.groupeId },
-    });
-    if (groupe) {
-      const poste: posteDto = posteData;
+  public async create(posteData: posteCreateDto){
+    const groupe = await this.groupesRepository.findOne({where: {id: posteData.groupeId}})
+    if(groupe)
+    {
+      const poste : posteDto = posteData;
 
       const newPoste = await this.postesRepository.create({
         ...poste,
         groupe: {
-          id: groupe.id,
-        },
+          id : groupe.id
+        }
       });
-
+      
       await this.postesRepository.save(newPoste);
       return newPoste;
     }
@@ -42,7 +43,7 @@ export class PostesService {
     );
   }
 
-  public async getById(id: number) {
+  public async getById(id: number){
     const poste = await this.postesRepository.findOneBy({ id });
     if (poste) {
       return poste;
@@ -53,19 +54,21 @@ export class PostesService {
     );
   }
 
-  public async update(id: number, posteData: posteCreateDto) {
-    const groupe = await this.groupesRepository.findOne({
-      where: { id: posteData.groupeId },
-    });
-
-    if (groupe) {
+  public async update(id: number, posteData: posteCreateDto){
+    
+    const groupe = await this.groupesRepository.findOne({where: {id: posteData.groupeId}})
+    
+    if(groupe)
+    {
       posteData.groupeId = undefined;
 
-      this.postesRepository.update(id, { ...posteData });
+      this.postesRepository.update(id, {...posteData});
+      
+      var poste;
+      poste = await this.getById(id);
 
-      const poste = await this.getById(id);
-
-      if (poste) {
+      if(poste)
+      {
         poste.groupe = groupe;
         await poste.save();
 
@@ -75,15 +78,16 @@ export class PostesService {
       throw new HttpException(
         'Poste with this id does not exist',
         HttpStatus.NOT_FOUND,
-      );
+      );    
+
     }
     throw new HttpException(
       'Groupe with this id does not exist',
       HttpStatus.NOT_FOUND,
-    );
+    );    
   }
 
-  public async delete(id: number) {
+  public async delete(id: number){
     return this.postesRepository.delete(id);
   }
 }

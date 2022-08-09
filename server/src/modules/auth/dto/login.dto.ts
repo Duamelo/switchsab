@@ -2,7 +2,7 @@ import { IsString, IsNotEmpty, MinLength } from 'class-validator';
 
 export default class LogInDto {
   @IsString()
-  @IsNotEmpty({ message: 'this pseudo must  be define' })
+  @IsNotEmpty({message: "this pseudo must  be define"})
   pseudo: string;
 
   @IsString()

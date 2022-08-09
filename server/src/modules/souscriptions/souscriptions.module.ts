@@ -4,10 +4,10 @@ import Souscription from './souscription.entity';
 import { SouscriptionsService } from './souscriptions.service';
 import { SouscriptionController } from './souscription.controller';
 import User from '../users/user.entity';
-import Categorie from '../categories/categorie.entity';
+import Tarif from '../tarifs/tarif.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Souscription, User, Categorie])],
+  imports: [TypeOrmModule.forFeature([Souscription, User, Tarif])],
   providers: [SouscriptionsService],
   controllers: [SouscriptionController],
 })

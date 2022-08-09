@@ -10,6 +10,7 @@ import { GroupesModule } from './modules/groupes/groupes.module';
 import { PostesModule } from './modules/postes/postes.module';
 import { SouscriptionsModule } from './modules/souscriptions/souscriptions.module';
 import { TarifsModule } from './modules/tarifs/tarifs.module';
+import { UsersModule } from './modules/users/users.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -29,8 +30,9 @@ import { TarifsModule } from './modules/tarifs/tarifs.module';
     CategoriesModule,
     GroupesModule,
     PostesModule,
-    // SouscriptionsModule,
+    SouscriptionsModule,
     TarifsModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

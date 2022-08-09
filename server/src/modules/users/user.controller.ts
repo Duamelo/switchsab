@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import JwtAuthGuard from '../auth/jwt-auth.guard';
-import UpdateUserDto from './dto/update-user.dto';
+import UpdateUserDto from './dto/updateUser.dto';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -18,6 +18,7 @@ export class UserController {
   constructor(private userService: UsersService) {}
 
   @HttpCode(200)
+  
   @UseGuards(JwtAuthGuard)
   @Get('id')
   async getById(@Param('id', ParseIntPipe) id: number) {
