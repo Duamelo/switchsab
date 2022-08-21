@@ -11,6 +11,7 @@ import { PostesModule } from './modules/postes/postes.module';
 import { SouscriptionsModule } from './modules/souscriptions/souscriptions.module';
 import { TarifsModule } from './modules/tarifs/tarifs.module';
 import { UsersModule } from './modules/users/users.module';
+import { IotModule } from './modules/iot/iot.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -33,6 +34,7 @@ import { UsersModule } from './modules/users/users.module';
     SouscriptionsModule,
     TarifsModule,
     UsersModule,
+    IotModule,
   ],
   controllers: [AppController],
   providers: [AppService],

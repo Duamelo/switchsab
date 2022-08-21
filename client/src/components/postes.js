@@ -20,6 +20,7 @@ module.exports = {
                     ),
                 ]
             ),
+            m("br"),
             m("div", {"class":"row "},
                 [
                     m("div", {"class":"col"}, 

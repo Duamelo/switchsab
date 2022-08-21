@@ -16,20 +16,29 @@ export class GroupesService {
   ) {}
 
   public async index() {
-    return this.groupesRepository.find();
+    return this.groupesRepository.find({
+      relations: {
+        postes: true,
+        categorie: true,
+      },
+    });
   }
 
-  public async create(groupeData: groupeCreateDto){
-    const categorie = await this.categoriesRepository.findOne({where: {id: groupeData.categorieId}})
-    if(categorie)
-    {
-      const groupe : groupeDto = groupeData;
+  public async create(groupeData: groupeCreateDto) {
+    const categorie = await this.categoriesRepository.findOne({
+      where: { id: groupeData.categorieId },
+    });
+    console.log('categoric');
+    console.log(categorie);
+
+    if (categorie) {
+      const groupe: groupeDto = groupeData;
 
       const newGroupe = await this.groupesRepository.create({
         ...groupe,
         categorie: {
-          id : categorie.id     
-        }
+          id: categorie.id,
+        },
       });
 
       await this.groupesRepository.save(newGroupe);
@@ -52,26 +61,22 @@ export class GroupesService {
     );
   }
 
-  public async update(id: number, groupeData: groupeCreateDto){
-    
-    const categorie = await this.categoriesRepository.findOne({where: {id: groupeData.categorieId}})
-    
-    if(categorie)
-    {
+  public async update(id: number, groupeData: groupeCreateDto) {
+    const categorie = await this.categoriesRepository.findOne({
+      where: { id: groupeData.categorieId },
+    });
+
+    if (categorie) {
       groupeData.categorieId = undefined;
-      
-      this.groupesRepository.update(
-        id, 
-        {
-          ...groupeData,
-        }
-      );
-      
+
+      this.groupesRepository.update(id, {
+        ...groupeData,
+      });
+
       var groupe;
       groupe = await this.getById(id);
 
-      if(groupe)
-      {
+      if (groupe) {
         groupe.categorie = categorie;
         await groupe.save();
 
@@ -81,7 +86,6 @@ export class GroupesService {
         'Groupe with this id does not exist',
         HttpStatus.NOT_FOUND,
       );
-
     }
     throw new HttpException(
       'Categorie with this id does not exist',

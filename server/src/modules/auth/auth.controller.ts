@@ -26,7 +26,6 @@ export class AuthController {
 
   @Post('register')
   async register(@Body() registrationData: RegisterDto) {
-    
     const user = await this.authService.register(registrationData);
     return user;
   }
@@ -39,6 +38,7 @@ export class AuthController {
     const accessTokenCookie = this.authService.getCookieWithJwtAccessToken(
       user.id,
     );
+    const token = await this.authService.generateToken(user.id);
     const { cookie: refreshTokenCookie, token: refreshToken } =
       this.authService.getCookieWithJwtRefreshToken(user.id);
 
@@ -49,8 +49,12 @@ export class AuthController {
       refreshTokenCookie,
     ]);
 
+    console.log(user);
     user.password = undefined;
-    return user;
+    return {
+      user: user,
+      token: token,
+    };
   }
 
   @UseGuards(JwtAuthGuard)

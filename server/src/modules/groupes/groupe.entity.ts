@@ -1,14 +1,21 @@
-import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import Categorie from '../categories/categorie.entity';
-import Poste from "../postes/poste.entity";
+import Poste from '../postes/poste.entity';
 import Tarif from '../tarifs/tarif.entity';
 
 @Entity()
 class Groupe extends BaseEntity {
   @PrimaryGeneratedColumn()
-  public id?: number;
+  public id: number;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, unique: true })
   public nom: string;
 
   @ManyToOne(() => Categorie, (categorie: Categorie) => categorie.groupes)

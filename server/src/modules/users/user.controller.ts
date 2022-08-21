@@ -18,9 +18,8 @@ export class UserController {
   constructor(private userService: UsersService) {}
 
   @HttpCode(200)
-  
   @UseGuards(JwtAuthGuard)
-  @Get('id')
+  @Get(':id')
   async getById(@Param('id', ParseIntPipe) id: number) {
     return await this.userService.getById(id);
   }

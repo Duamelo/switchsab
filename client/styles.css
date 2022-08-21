@@ -44,6 +44,34 @@
     height: 40px;
 }
 
+.poste_object{
+    width: 70%;
+    height: 100px;
+    background-color: #dbe3fd;
+}
+
+.text_poste{
+    position: relative;
+    left: 50px;
+    top: 20px;
+}
+
+.text_time{
+    position: relative;
+    left: 70px;
+    top: 30px;
+}
+
+.box_name:hover{
+    cursor: pointer;
+}
+
+.count{
+    position: relative;
+    color: #2c3592;
+    left: 80px;
+}
+
 .computer{
     position: relative;
     left: 50px;

@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, In } from 'typeorm';
+import { Repository } from 'typeorm';
 import User from './user.entity';
 import CreateUserDto from './dto/createUser.dto';
 import * as bcrypt from 'bcrypt';
@@ -83,32 +83,20 @@ export class UsersService {
         throw new HttpException('Failed to delete', HttpStatus.NOT_FOUND);
       else throw new HttpException('user deleted', HttpStatus.FOUND);
     }
-    throw new HttpException('uuser not found', HttpStatus.NOT_FOUND);
+    throw new HttpException('user not found', HttpStatus.NOT_FOUND);
   }
 
   public async update(id: number, user: UpdateUserDto) {
     const _user = await this.usersRepository.find({ where: { id: id } });
 
     if (_user.length != 0) {
-      const user_pseudo = await this.usersRepository.find({
-        where: { pseudo: user.pseudo },
-      });
-
       const hashPassword = await bcrypt.hash(user.password, 15);
       user.password = hashPassword;
 
-      if (user_pseudo.length == 0) {
-        await this.usersRepository.update(id, user);
+      const update_user = await this.usersRepository.update(id, user);
 
-        const updatedclient = await this.usersRepository.findOne({
-          where: { id: id },
-        });
-
-        if (updatedclient) {
-          return updatedclient;
-        }
-        throw new HttpException('Failed to update', HttpStatus.NOT_FOUND);
-      }
+      if (update_user) return update_user;
+      throw new HttpException('Failed to update', HttpStatus.NOT_FOUND);
     }
   }
 }

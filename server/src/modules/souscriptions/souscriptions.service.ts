@@ -1,11 +1,10 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { InjectRepository } from "@nestjs/typeorm";
+import { InjectRepository } from '@nestjs/typeorm';
 import Souscription from './souscription.entity';
 import { Repository } from 'typeorm';
 import souscriptionDto from './dto/souscriptionDto.dto';
 import User from '../users/user.entity';
 import Tarif from '../tarifs/tarif.entity';
-
 
 @Injectable()
 export class SouscriptionsService {
@@ -16,46 +15,44 @@ export class SouscriptionsService {
     private tarifsRepository: Repository<Tarif>,
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-
   ) {}
 
-  public async  index() {
+  public async index() {
     return this.souscriptionsRepository.find();
   }
 
-  public async create(souscriptionData: souscriptionDto){
+  public async create(souscriptionData: souscriptionDto) {
     const tarif = await this.tarifsRepository.findOne({
       where: {
-        id: souscriptionData.tarifId
-      }, 
-      relations:{
-        groupe: true
-      }
-    })
-    const client = await this.usersRepository.findOne({where: {id: souscriptionData.clientId}})
-    if(tarif && client)
-    {
-
+        id: souscriptionData.tarifId,
+      },
+      relations: {
+        groupe: true,
+      },
+    });
+    const client = await this.usersRepository.findOne({
+      where: { id: souscriptionData.clientId },
+    });
+    if (tarif && client) {
       const oldSouscriptions = await this.souscriptionsRepository.find({
         where: {
           clientId: client.id,
-          groupeId: tarif.groupe.id
-        }
+          groupeId: tarif.groupe.id,
+        },
       });
-      var dureeAncienne = 0;
-      
-      if(oldSouscriptions)
-      {
-        oldSouscriptions.forEach(oldSouscription => {
+      let dureeAncienne = 0;
+
+      if (oldSouscriptions) {
+        oldSouscriptions.forEach((oldSouscription) => {
           dureeAncienne = oldSouscription.dureeRestante;
         });
       }
 
-      var montant = tarif.montant;
-      var dureeRestante = tarif.duree + dureeAncienne;
-      var groupeId = tarif.groupe.id;
-      var duree = tarif.duree;
-      var clientId = client.id;
+      const montant = tarif.montant;
+      const dureeRestante = tarif.duree + dureeAncienne;
+      const groupeId = tarif.groupe.id;
+      const duree = tarif.duree;
+      const clientId = client.id;
 
       const newSouscription = await this.souscriptionsRepository.create({
         clientId,
@@ -74,7 +71,7 @@ export class SouscriptionsService {
     );
   }
 
-  public async getById(id: number){
+  public async getById(id: number) {
     const souscription = await this.souscriptionsRepository.findOneBy({ id });
     if (souscription) {
       return souscription;

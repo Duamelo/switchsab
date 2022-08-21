@@ -1,23 +1,28 @@
-import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
-import Groupe from "../groupes/groupe.entity";
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  BaseEntity,
+} from 'typeorm';
+import Groupe from '../groupes/groupe.entity';
 
 @Entity()
 class Tarif extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    public id?: number;
+  @PrimaryGeneratedColumn()
+  public id?: number;
 
-    @Column({nullable: false})
-    public label: string;
+  @Column({ nullable: false, unique: true })
+  public label: string;
 
-    @Column({nullable: false})
-    public montant: number;
+  @Column({ nullable: false })
+  public montant: number;
 
-    @Column({nullable: false})
-    public duree: number;
+  @Column({ nullable: false })
+  public duree: number;
 
-    @ManyToOne(() => Groupe, (groupe: Groupe) => groupe.tarifs)
-    public groupe: Groupe;
-
+  @ManyToOne(() => Groupe, (groupe: Groupe) => groupe.tarifs)
+  public groupe: Groupe;
 }
 
 export default Tarif;

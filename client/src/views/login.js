@@ -1,5 +1,7 @@
 var m = require("mithril");
 const jwt = require('../config/jwt');
+const server = require("../config/server");
+
 const {
     mountRoutes
 } = require("../mounter");
@@ -30,17 +32,35 @@ const credential = {
         this._password = value;
     },
     login(e) {
-        e.preventDefault();
-        for(var user of User){
-            if((user.username == credential.username) && (user.password == credential.password)){
-                jwt.token = credential.username + "-" + credential.password;
-                mountRoutes(),
-                credential.check++;
+        // e.preventDefault();
+        // for(var user of User){
+        //     if((user.username == credential.username) && (user.password == credential.password)){
+        //         jwt.token = credential.username + "-" + credential.password;
+        //         mountRoutes(),
+        //         credential.check++;
+        //     }
+        // }
+        // if(credential.check == 0){
+        //     credential.error = "Erreur de login"
+        // }
+
+        e.preventDefault()
+        m.request({
+            method: "POST",
+            url: server.url + "/auth/log-in",
+            body: {
+                "pseudo": credential.username,
+                "password": credential.password
             }
-        }
-        if(credential.check == 0){
-            credential.error = "Erreur de login"
-        }
+        }).then((response) => {
+            if (response != undefined) {
+                jwt.token = response.token
+                mountRoutes()
+            }
+        }, (error) => {
+            if (error.code == 400)
+                credential.error = "Erreur de login"
+        })
     }
 }
 
