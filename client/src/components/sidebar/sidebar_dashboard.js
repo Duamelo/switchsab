@@ -1,8 +1,20 @@
 var m = require('mithril');
+const client = require('../../models/client');
+const group = require('../../models/group');
+const tarif = require('../../models/tarif');
 
 const t_sidebar_dash = {
   _state : false,
 
+  _id_client: 0,
+
+  _id_group: 1,
+
+  _id_tarif: 0,
+
+  _minute: 0,
+
+  _price: 0,
 
   get state(){
     return this._state;
@@ -10,10 +22,60 @@ const t_sidebar_dash = {
 
   set state(value){
     this._state = value;
+  },
+
+  get id_client(){
+     return this._id_client;
+  },
+
+  set id_client(value){
+     this._id_client = value;
+  },
+
+  get id_group(){
+     return this._id_group;
+  },
+
+  set id_group(value){
+     this._id_group = value;
+  },
+
+  get id_tarif(){
+     return this._id_tarif;
+  },
+
+  set id_tarif(value){
+     this._id_tarif = value;
+  },
+
+  get minute(){
+    return this._minute;
+  },
+
+  set minute(value){
+    this._minute = value;
+  },
+
+  get price(){
+    return this._price;
+  },
+
+  set price(value){
+    this._price = value;
   }
 }
 
+
+
 const add_credit = {
+
+  oninit(){
+    client.load_client();
+    group.load_group();
+    tarif.load_tarif();
+    tarif.load_tarif_by_group(t_sidebar_dash.id_group);
+  },
+
   view(vnode){
     return [
       m("div", {
@@ -23,20 +85,23 @@ const add_credit = {
           " Choisir le client "
         ), 
         m("br"), 
-        m("select", {"class":"form-select","aria-label":"Default select example"},
+        m("select", {
+          "class":"form-select",
+          "aria-label":"Default select example",
+          onclick: function(e){
+            console.log(client.list[e.target.value]['id']);
+            t_sidebar_dash.id_client = client.list[e.target.value]['id'];
+          }
+        },
           [
-            m("option", {"selected":"selected"}, 
-              "John Doe"
-            ),
-            m("option", {"value":"1"}, 
-              "John Doe"
-            ),
-            m("option", {"value":"2"}, 
-              "John Doe"
-            ),
-            m("option", {"value":"3"}, 
-              "John Doe"
-            )
+            client.list.map((cl, index)=>{
+              return m("option", {
+                "value": index,
+              },
+                cl.pseudo
+              )
+            })
+
           ]
         )
       ]),
@@ -47,41 +112,22 @@ const add_credit = {
           "Groupe de jeu "
         ), 
         m("br"), 
-        m("select", {"class":"form-select","aria-label":"Default select example"},
+        m("select", {
+          "class":"form-select",
+          "aria-label":"Default select example",
+          onclick: function(e){
+            t_sidebar_dash.id_group = group.list[e.target.value]['id'];
+            tarif.load_tarif_by_group(t_sidebar_dash.id_group);
+          }
+        },
           [
-            m("option", {"selected":"selected"}, 
-              "PS2"
-            ),
-            m("option", {"value":"1"}, 
-              "John Doe"
-            ),
-            m("option", {"value":"2"}, 
-              "John Doe"
-            ),
-            m("option", {"value":"3"}, 
-              "John Doe"
-            )
-          ]
-        )
-      ]),
-      m("div", {
-        "class": "mb-3"
-      },[
-        m("label", 
-          "Groupe de jeu "
-        ), 
-        m("br"), 
-        m("select", {"class":"form-select","aria-label":"Default select example"},
-          [
-            m("option", {"selected":"selected"}, 
-              "bêta"
-            ),
-            m("option", {"value":"1"}, 
-              "alpha"
-            ),
-            m("option", {"value":"2"}, 
-              "bêta"
-            )
+            group.list.map((gp, index)=>{
+              return m("option", {
+                "value": index,
+              },
+                gp.nom
+              )
+            })
           ]
         )
       ]),
@@ -92,20 +138,23 @@ const add_credit = {
           "Tarifs"
         ), 
         m("br"), 
-        m("select", {"class":"form-select","aria-label":"Default select example"},
+        m("select", {
+          "class":"form-select",
+          "aria-label":"Default select example",
+          onclick: function(e){
+            t_sidebar_dash.id_tarif = tarif.list_by_group[e.target.value]['montant'];
+            t_sidebar_dash.minute = tarif.list_by_group[e.target.value]['duree'];
+            t_sidebar_dash.price = tarif.list_by_group[e.target.value]['montant'];
+          }
+        },
           [
-            m("option", {"selected":"selected"}, 
-              "500"
-            ),
-            m("option", {"value":"1"}, 
-              "1000"
-            ),
-            m("option", {"value":"2"}, 
-              "1500"
-            ),
-            m("option", {"value":"3"}, 
-              "2000"
-            )
+            tarif.list_by_group.map((t, index)=>{
+              return m("option", {
+                "value": index,
+              },
+               t.montant
+              )
+            })
           ]
         )
       ]),
@@ -117,7 +166,13 @@ const add_credit = {
                 m("label", 
                 "Minutes "
                 ),
-                m("input", {"class":"form-control","type":"text","placeholder":"60"})
+                m("input", {
+                  "class":"form-control",
+                  "type":"text",
+                  "placeholder":"60",
+                  "disabled":"disabled",
+                  "value": t_sidebar_dash.minute
+                })
             ]
             ),
             m("div", {"class":"col"},
@@ -125,7 +180,13 @@ const add_credit = {
                 m("label", 
                 "Montant"
                 ),
-                m("input", {"class":"form-control","type":"text","placeholder":"prix"})
+                m("input", {
+                  "class":"form-control",
+                  "type":"text",
+                  "placeholder":"prix",
+                  "disabled":"disabled",
+                  "value": t_sidebar_dash.price
+                })
             ]
             )
         ]

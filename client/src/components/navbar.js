@@ -55,6 +55,14 @@ module.exports = {
                                 "Configuration"
                                 )
                             ),
+                            m("li", {"class":"nav-item  navbar_li"}, 
+                            m(m.route.Link, {
+                                "class":"nav-link active",
+                                "href":"/report"
+                            }, 
+                            "Rapport"
+                            )
+                        ),
                             ]
                         ),
                         m("div", {"class":"d-flex"},
@@ -71,7 +79,8 @@ module.exports = {
                                             onclick(e) {
                                                 window.localStorage.removeItem('jwt')
                                                 // m.mount(document.body, login)
-                                                window.location.reload()
+                                                // window.location.reload()
+                                                m.route.set('/compte')
                                             }
                                         })
                                     ]

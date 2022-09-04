@@ -1,10 +1,15 @@
 var m = require('mithril');
+const Modal = require('../components/modal/modal');
+const client = require('../models/client');
+
+
 
 module.exports = {
     view: function(vnode){
+        var modal;
         return [
             m("div", {
-                "class": "container-fluid"
+                "class": "container"
             }, 
             [
                 m("h6", {
@@ -32,10 +37,14 @@ module.exports = {
                         ),
                         m("th", {"scope":"col"}, 
                             "Punition"
+                        ),
+                        m("th", {"scope":"col"}, 
+                        ""
                         )
                         ]
                     )
                     ),
+                    Modal.placeholder,
                     m("tbody",
                     [
                         m("tr",
@@ -54,47 +63,28 @@ module.exports = {
                             ),
                             m("td", 
                             "0"
+                            ),
+                            m("td", 
+                            m("button", {
+                                "class":"btn btn-outline-primary add_button",
+                                "type":"button",
+                                // onclick:function(e){
+                                //     box.object_id = pt.id_object;
+                                //     box.attribute_poste();
+                                // }
+                                onclick(e){
+                                    // modal = document.getElementById("modal");
+                                    // m.mount(modal, {
+                                    //     view: function () {
+                                    //         return m(Modal, activate_poste);
+                                    //     }
+                                    // });
+                                }
+                            }, 
+                            m("span.add_poste", "-"))
                             )
                         ]
                         ),
-                        m("tr",
-                        [
-                            m("th", {"scope":"row"}, 
-                            "John Doe"
-                            ),
-                            m("td", 
-                            "HH:MM:SS"
-                            ),
-                            m("td", 
-                            "HH:MM:SS"
-                            ),
-                            m("td", 
-                            "HH:MM:SS"
-                            ),
-                            m("td", 
-                            "0"
-                            )
-                        ]
-                        ),
-                        m("tr",
-                        [
-                            m("th", {"scope":"row"}, 
-                            "John Doe"
-                            ),
-                            m("td", 
-                            "HH:MM:SS"
-                            ),
-                            m("td", 
-                            "HH:MM:SS"
-                            ),
-                            m("td", 
-                            "HH:MM:SS"
-                            ),
-                            m("td", 
-                            "0"
-                            )
-                        ]
-                        )
                     ]
                     )
                 ]

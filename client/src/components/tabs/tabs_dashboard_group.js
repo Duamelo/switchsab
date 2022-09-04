@@ -1,6 +1,11 @@
 var m = require('mithril');
+const group = require('../../models/group');
 
 module.exports = {
+    oninit(){
+     group.load_group();
+    },
+
     view: function(vnode){
         return [
            m("div", {
@@ -22,42 +27,19 @@ module.exports = {
                                 "aria-controls":"pills-home",
                                 "aria-selected":"true",
                                 onclick : function(e){
-
+                                    
                                 }
                             }, 
                             "Tous les postes"
                             )
                         ),
-                        m("li", {"class":"nav-item","role":"presentation"}, 
-                            m("button", {"class":"nav-link text-dark","id":"pills-profile-tab","data-bs-toggle":"pill","data-bs-target":"#pills-profile","type":"button","role":"tab","aria-controls":"pills-profile","aria-selected":"false"}, 
-                            "Alpha"
+                         group.list.map((gp, index)=>{
+                            return m("li", {"class":"nav-item","role":"presentation"}, 
+                                m("button", {"class":"nav-link text-dark","id":"pills-profile-tab","data-bs-toggle":"pill","data-bs-target":"#pills-profile","type":"button","role":"tab","aria-controls":"pills-profile","aria-selected":"false"}, 
+                                    gp.nom
+                                )
                             )
-                        ),
-                        m("li", {"class":"nav-item","role":"presentation"}, 
-                            m("button", {"class":"nav-link text-dark","id":"pills-profile-tab","data-bs-toggle":"pill","data-bs-target":"#pills-profile","type":"button","role":"tab","aria-controls":"pills-profile","aria-selected":"false"}, 
-                            "Beta"
-                            )
-                        ),
-                        m("li", {"class":"nav-item","role":"presentation"}, 
-                            m("button", {"class":"nav-link text-dark","id":"pills-profile-tab","data-bs-toggle":"pill","data-bs-target":"#pills-profile","type":"button","role":"tab","aria-controls":"pills-profile","aria-selected":"false"}, 
-                            "Omega"
-                            )
-                        ),
-                        m("li", {"class":"nav-item","role":"presentation"}, 
-                            m("button", {"class":"nav-link text-dark","id":"pills-profile-tab","data-bs-toggle":"pill","data-bs-target":"#pills-profile","type":"button","role":"tab","aria-controls":"pills-profile","aria-selected":"false"}, 
-                            "tete"
-                            )
-                        ),
-                        m("li", {"class":"nav-item","role":"presentation"}, 
-                            m("button", {"class":"nav-link text-dark","id":"pills-profile-tab","data-bs-toggle":"pill","data-bs-target":"#pills-profile","type":"button","role":"tab","aria-controls":"pills-profile","aria-selected":"false"}, 
-                            "dzêta"
-                            )
-                        ),
-                        m("li", {"class":"nav-item","role":"presentation"}, 
-                            m("button", {"class":"nav-link text-dark","id":"pills-profile-tab","data-bs-toggle":"pill","data-bs-target":"#pills-profile","type":"button","role":"tab","aria-controls":"pills-profile","aria-selected":"false"}, 
-                            "lambda"
-                            )
-                        )
+                         })
                     ]
                 )
                ])

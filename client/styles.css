@@ -50,6 +50,10 @@
     background-color: #dbe3fd;
 }
 
+.poste_object:hover{
+    cursor: pointer;
+}
+
 .text_poste{
     position: relative;
     left: 50px;
@@ -179,4 +183,15 @@
     position: relative;
     text-align: center;
     margin-top: 10px;
+}
+
+.add_button{
+    position: relative;
+    height: 30px;
+    float: right;
+}
+
+.add_poste{
+    position: relative;
+    bottom: 5px;
 }

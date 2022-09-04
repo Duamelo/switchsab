@@ -1,5 +1,5 @@
 var m = require('mithril');
-const add_group = require('../configuration/add_group');
+const {add_group} = require('../configuration/add_group');
 
 const c_sidebar = {
   _state: true,

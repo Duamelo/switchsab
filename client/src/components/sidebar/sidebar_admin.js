@@ -1,9 +1,11 @@
 var m = require('mithril');
+const server = require('../../config/server');
+const client = require('../../models/client');
 
 
 const t_sidebar_admin = {
     _state: true,
-  
+
     get state(){
       return this._state;
     },
@@ -14,6 +16,49 @@ const t_sidebar_admin = {
   }
 
 const add_admin = {
+    type_admin : ['gerant', 'promoteur'],
+
+    type: "",
+
+    nom: "",
+    prenom: "",
+
+    identifiant: "",
+
+    mot_de_passe: "",
+
+    confirmation_mot_de_passe: "",
+
+    save(e){
+      e.preventDefault()
+      m.request({
+        method: "POST",
+        url: server.url + "/auth/register",
+        body: {
+            "pseudo": add_admin.identifiant,
+            "nom": add_admin.nom,
+            "prenoms": add_admin.prenom,
+            "password" : add_admin.mot_de_passe,
+            "type": add_admin.type,
+            "permissions": ["CreatePostes", "ReadPostes", "UpdatePostes", "DeletePostes",
+             "CreateCategories", "ReadCategories", "UpdateCategories", "DeleteCategories",
+            "CreateGroupes", "ReadGroupes", "UpdateGroupes", "DeleteGroupes", "GenererRapport",
+            "CreateSouscriptions", "ReadSouscriptions", "UpdateSouscriptions", "DeleteSouscriptions", 
+            "CreateTarifs", "ReadTarifs", "UpdateTarifs", "DeleteTarifs"],
+            "phone": ""
+          }
+      })
+      .then((response) => {
+          if (response != undefined) {
+              console.log(response);
+              client.list.push(response);
+          }
+      }, (error) => {
+          if (error.code == 400)
+              credential.error = "Erreur d'enregistrement"
+      })
+    },
+
     view(vnode){
         return [
             m("div", {
@@ -23,20 +68,22 @@ const add_admin = {
                   "Type administrateur "
                 ), 
                 m("br"), 
-                m("select", {"class":"form-select","aria-label":"Default select example"},
+                m("select", {
+                  "class":"form-select",
+                  "aria-label":"Default select example",
+                  onclick: function(e){
+                    add_admin.type = e.target.value;
+                    console.log(add_admin.type);
+                  }
+                },
                   [
-                    m("option", {"selected":"selected"}, 
-                      "Administrateur général"
-                    ),
-                    m("option", {"value":"1"}, 
-                      "John Doe"
-                    ),
-                    m("option", {"value":"2"}, 
-                      "John Doe"
-                    ),
-                    m("option", {"value":"3"}, 
-                      "John Doe"
+                   add_admin.type_admin.map((ad, index)=>{
+                    return m("option", {
+                      "value":ad
+                    }, 
+                      ad
                     )
+                   })
                   ]
                 )
             ]),
@@ -44,19 +91,38 @@ const add_admin = {
                 "class": "mb-3"
               },[
                 m("label", 
-                  "Nom et Prénom"
+                  "Nom"
                 ), 
                 m("br"), 
                 m("input", {
                     "class":"form-control",
                     "type":"text",
-                    "placeholder": "John Doe",
+                    "placeholder": " Doe",
                     oninput: function(e) {
+                        add_admin.nom = e.target.value;
+                        console.log(add_admin.nom);
                     },
-                    value: 'John Doe'
                   }),
                 ]
             ),
+            m("div", {
+              "class": "mb-3"
+            },[
+              m("label", 
+                "Prénom"
+              ), 
+              m("br"), 
+              m("input", {
+                  "class":"form-control",
+                  "type":"text",
+                  "placeholder": "John ",
+                  oninput: function(e) {
+                    add_admin.prenom = e.target.value;
+                    console.log(add_admin.prenom);
+                  },
+                }),
+              ]
+          ),
             m("div", {
                 "class": "mb-3"
               },[
@@ -69,8 +135,9 @@ const add_admin = {
                     "type":"text",
                     "placeholder": "@boss_johnny",
                     oninput: function(e) {
+                      add_admin.identifiant = e.target.value;
+                      console.log(add_admin.identifiant);
                     },
-                    value: 0
                   }),
             ]),
             m("div", {"class":"mb-3"},
@@ -83,8 +150,9 @@ const add_admin = {
                   "type":"password",
                   "placeholder": "***********",
                   oninput: function(e) {
+                    add_admin.password = e.target.value;
+                    console.log(add_admin.password);
                   },
-                  value: ""
                 })
               ]
             ),
@@ -98,8 +166,9 @@ const add_admin = {
                 "type":"password",
                 "placeholder": "***********",
                 oninput: function(e) {
+                  add_admin.confirmation_mot_de_passe = e.target.value;
+                  console.log(e.target.value);
                 },
-                value: ""
               })
             ]
             ),
@@ -116,7 +185,8 @@ const add_admin = {
                     m("div", {"class":"col"}, 
                         m("button", {
                             "class":"btn float-start btn_color",
-                            "type":"button"
+                            "type":"button",
+                            onclick: add_admin.save
                         }, 
                             "Ajouter"
                         )

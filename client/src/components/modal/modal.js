@@ -1,9 +1,10 @@
 const m = require("mithril");
 
-var Modal = {
+const Modal = {
     modal: undefined,
     oninit(vnode) {
         this.modal = vnode.attrs;
+        console.log(this.modal);
     },
     
     view() {
@@ -53,4 +54,4 @@ var Modal = {
             )
         ))
 };
-exports.Modal = Modal;
+module.exports = Modal;

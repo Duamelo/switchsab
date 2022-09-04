@@ -32,18 +32,6 @@ const credential = {
         this._password = value;
     },
     login(e) {
-        // e.preventDefault();
-        // for(var user of User){
-        //     if((user.username == credential.username) && (user.password == credential.password)){
-        //         jwt.token = credential.username + "-" + credential.password;
-        //         mountRoutes(),
-        //         credential.check++;
-        //     }
-        // }
-        // if(credential.check == 0){
-        //     credential.error = "Erreur de login"
-        // }
-
         e.preventDefault()
         m.request({
             method: "POST",

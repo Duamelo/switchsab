@@ -10,11 +10,14 @@ const add_tarif = require("./components/tarif/add_tarif");
 const sidebar_tarif = require("./components/sidebar/sidebar_tarif");
 const group_mng = require("./components/configuration/group_mng");
 const tarif = require("./views/tarif");
-const sidebar_poste = require("./components/sidebar/sidebar_poste");
+const {sidebar_poste} = require("./components/sidebar/sidebar_poste");
 const poste = require("./views/poste");
 const c_xbox = require("./components/posts/c_xbox");
 const sidebar_admin = require("./components/sidebar/sidebar_admin");
 const admin = require("./views/admin");
+const sidebar_report = require("./components/sidebar/sidebar_report");
+const report = require("./views/report");
+const profil = require("./views/profil");
 
 
 function mountRoutes() {
@@ -54,7 +57,17 @@ function mountRoutes() {
                 render: function(){
                     return m(layout, m(sidebar_admin), m(configuration, m(admin)))
                 }
-            }
+            },
+            "/report": {
+                render: function() {
+                    return m(layout, m(sidebar_report), m(report));
+                }
+            },
+            "/compte": {
+                render: function() {
+                    return m(layout, null, m(profil));
+                }
+            },
         });
 }
 exports.mountRoutes = mountRoutes;
