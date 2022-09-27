@@ -1,147 +1,175 @@
 var m = require('mithril');
-const Modal = require('./modal/modal');
-const client = require('../models/client');
+const server = require('../config/server');
 const souscription = require('../models/souscriptions');
+const { t_sidebar_dash } = require('./sidebar/sidebar_dashboard');
 
-const activate_poste = {
-    title: "Activer le décompte",
-    saveButtonTitle: "activer",
+var hour = 0, minute = 0, second = 0;
 
-    save(){
-        souscription.list.map((sb, index)=>{
-            if((sb.clientId == computer._client ) && (sb.groupeId == computer._active_poste.groupe.id))
-                computer._subscribing.push(sb);
-        })
+function show_time(h, m, s){
+    if( h < 10 )
+        h = '0' + h;
+    if( m < 10 )
+        m = '0' + m;
+    if( s < 10)
+        s = '0' + s;
+    return h + ':' + m + ':' + s;
+};
 
-        console.log(computer._subscribing);
+function computer(status){
+    console.log(status);
+    var time = 0;
+    var _total_time;
+    var start = 0;
+    var state = false;
+    var error = "";
+    var errorDisplay = ()=> {
+        return error != "" ? "" : "none"
+    };
+    var _subscribing = [];
 
-        if(computer._subscribing.length != 0){
-            var active_subscribing = computer._subscribing[computer._subscribing.length - 1];
-
-            computer._total_time = active_subscribing.dureeRestante;
-
-            console.log(computer._total_time);
-
-            computer._start = Date.now();
-            computer._state = !computer._state;
-            if(computer._state){
-                var timer_id = setInterval(()=>{
-                    time = Math.floor((Date.now() - computer._start)/1000);
-                    computer._total_time--;
-                    console.log(computer._total_time);
-                    m.redraw();
-                }, 1000);
-            } 
-
-            console.log(active_subscribing);
-        }
-        else {
-            computer.error = "ce client ne dispose pas de forfait dans ce groupe de console";
-            var  div = document.getElementById("computer");
-            console.log(div);
-            m.mount(div, {
-                view: function () {
-                    return  m(".alert.alert-danger[role='alert']", {
-                                "style": {
-                                    "display": computer.errorDisplay()
-                                }
-                    }, computer.error);
-                }
-            })
-
-            setTimeout(()=>{
-                computer.error = "";
-                computer.errorDisplay();
-                m.redraw();
-            }, 3000)
-        }
-    },
-
-    oninit(){
-        client.load_client();
-        souscription.load_souscription();
-    },
-
-    view(){
-        return m("div", {
-            "class": "mb-3 mt-3"
-        },
-        [
-            m("label[for=formControlInput1].form-label", 
-            " Choisir le client "
-          ), 
-          m("br"), 
-          m("select", {
-            "class":"form-select",
-            "aria-label":"Default select example",
-            onclick: function(e){
-              computer._client = client.list[e.target.value]['id'];
-              computer._client_name = client.list[e.target.value]['pseudo'];
+    return {
+        oninit(vnode){
+            _total_time = "";
+            souscription.load_souscription();
+            console.log(vnode);
+            console.log(window.localStorage.getItem(`${vnode.attrs.idx}`));
+            if(window.localStorage.getItem(`${vnode.attrs.poste.id}`) != null){
+                var data = JSON.parse( "[" + window.localStorage.getItem(`${vnode.attrs.poste.id}`) + "]");
+                console.log("oui");
+                hour = data[0];
+                minute = data[1];
+                second = data[2];
+                console.log(data[0] + " " + data[1] + " " + data[2] )
+                _total_time =  show_time(hour, minute, second);
             }
-          },
-            [
-              client.list.map((cl, index)=>{
-                return m("option", {
-                  "value": index,
-                },
-                  cl.pseudo
-                )
-              })
-  
-            ]
-          )
-        ])
-    }
-}
+            else{
+                hour = 0;
+                minute = 0;
+                second = 0;
+                _total_time =  show_time(hour, minute, second);
+            }
+        },
 
-const computer = {
-    errorDisplay() {
-        return this.error != "" ? "" : "none"
-    },
-    error: "",
-    _client: "",
-    _active_poste : "",
-    _subscribing: [],
-    _time : 0,
-    _start : 0,
-    _state : false,
-
-
-    _total_time: 0,
-    _client_name: "",
- 
         view: function(vnode){
-            var modal;
-            var id = vnode.attrs.poste.id;
             return [
                 m("div", {
                     "class": ""
                 }, [
-                    Modal.placeholder,
-                   m("div#computer[data-bs-target=#modal][data-bs-toggle=modal]", {
+                   m("div#computer", {
                     "class": "border border-primary rounded-4 poste_object",
-                     onclick(e){
-                        console.log(e.target);
-                        console.log(id);
-                        modal = document.getElementById("modal");
-                        computer._active_poste = vnode.attrs.poste;
-                        m.mount(modal, {
-                            view: function () {
-                                return m(Modal, activate_poste);
+                    onclick(e){
+                        console.log("id client");
+                        console.log(t_sidebar_dash.id_client);
+                        if(!t_sidebar_dash.id_client){
+                            var div = document.getElementById("sub_nav");
+                            error = "veuillez choisir le client"
+                            m.mount(div, {
+                                view: function(){
+                                    return  m("div", {
+                                        "class": "row"
+                                    }, [
+                                        m("div", {
+                                            "class": "col-4"
+                                        }),
+                                        m("div", {
+                                            "class": "col-4"
+                                        }, [
+                                            m(".alert.alert-danger[role='alert'].no_client", {
+                                                "style": {
+                                                    "display": errorDisplay()
+                                                }
+                                    }, error)
+                                        ]),
+                                    m("div", {
+                                        "class": "col-4"
+                                    })
+                                    ])
+                                }
+                            })
+                            var id_timer = setTimeout(()=>{
+                                error = "";
+                                errorDisplay();
+                                m.redraw();
+                                clearTimeout(id_timer);
+                            }, 3000);
+                        }
+                        else{
+                            var active_subscribing;
+                            souscription.list.map((sb, index)=>{
+                                console.log(vnode.attrs);
+                                if((sb.clientId == t_sidebar_dash.id_client) && (sb.groupeId == vnode.attrs.poste.groupe.id)){
+                                    _subscribing.push(sb);
+                                }
+                            });
+
+                            if(_subscribing.length){
+                                active_subscribing = _subscribing[_subscribing.length - 1];
+
+                                var duration = active_subscribing.dureeRestante;
+
+                                hour = Math.floor(duration / 60);
+                                minute = duration - (60 * hour);
+                                second = 59;
+                                state = !state;
+                                
+                                start = Date.now();
+                                var timer_id = setInterval(()=>{
+                                    time = Math.floor((Date.now() - start)/1000);
+                                    console.log(time);
+                                    if(second != 0)
+                                        second--;
+                                    if((minute == 0) && (second == 0) && (hour != 0)){
+                                        second = 59;
+                                        minute = 59;
+                                        if(hour >= 1)
+                                            hour--;
+                                    }
+                                    else if((second == 0) && (minute == 0) && (hour == 0)){
+                                        state = false;
+                                        clearInterval(timer_id);
+                                    }
+                                    else if(second == 0){
+                                        second = 59;
+                                        if(minute>=1)
+                                            minute--;
+                                    }
+                                    m.request({
+                                        headers: {
+                                            Authorization: "Bearer " + window.localStorage.jwt,
+                                        },
+                                        method: "PUT",
+                                        url: server.url + "/postes/"+ vnode.attrs.poste.id,
+                                        body: {
+                                            nom: vnode.attrs.poste.nom,
+                                            status: state == true ? "on" : "off",
+                                            hour: hour,
+                                            minute: minute,
+                                            second: second,
+                                            groupeId: vnode.attrs.poste.groupe.id
+                                        }
+                                    })
+                                    .then((result)=>{
+                                        console.log(result);
+                                    });
+                                    window.localStorage.setItem(`${vnode.attrs.poste.id}`, [hour, minute, second, t_sidebar_dash.id_client]);
+                                    _total_time =  show_time(hour, minute, second);
+                                    m.redraw();
+                                }, 1000);
                             }
-                        });
+
+                        }
                     }
                    }, [
                     m("span", {
                         "class": "text_poste",
                     }, 
-                        vnode.attrs.poste.nom
+                        `${vnode.attrs.poste.nom}`
                     ),
                     m("br"),
                     m("span", {
                         "class": "text_time",
                     }, 
-                        this._total_time
+                        _total_time
                     ),
                    ]),
                     m("div", {
@@ -152,6 +180,8 @@ const computer = {
                         },[
                             m("div", {
                                 "class": "border border-primary rounded-4 box_name",
+                                onclick(e){
+                                }
                             },[
                                 m("div", {
                                     "class": "col-12"
@@ -159,7 +189,7 @@ const computer = {
                                 m("input", {
                                     "class":"form-control",
                                     "type":"text",
-                                    "placeholder": this._client_name,
+                                    "placeholder":"        John Doe",
                                     oninput(e){
                                        
                                     }
@@ -171,5 +201,6 @@ const computer = {
             ])
             ]
         }
+    }
 }
 module.exports = computer;

@@ -9,7 +9,7 @@ const tarif = {
                 Authorization: "Bearer " + window.localStorage.jwt,
             },
             method: "GET",
-            url: server.url + "/tarifs/"+ group_id,
+            url: server.url + "/tarifs/groupe/"+ group_id,
         })
         .then((result)=>{
             tarif.list_by_group = result;
