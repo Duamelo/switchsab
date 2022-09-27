@@ -73,6 +73,7 @@ export class GroupesService {
         ...groupeData,
       });
 
+      // eslint-disable-next-line no-var
       var groupe;
       groupe = await this.getById(id);
 
@@ -94,6 +95,6 @@ export class GroupesService {
   }
 
   public async delete(id: number) {
-    return this.groupesRepository.delete(id);
+    return await this.groupesRepository.delete(id);
   }
 }

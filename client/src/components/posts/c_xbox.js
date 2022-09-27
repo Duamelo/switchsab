@@ -55,7 +55,7 @@ const box = {
                         Authorization: "Bearer " + window.localStorage.jwt,
                     },
                     method: "DELETE",
-                    url: server.url + "/freepost/"+box.object_id,
+                    url: server.url + "/freepost/"+ box.object_id,
                 })
                 .then((result)=>{
                     console.log(result);

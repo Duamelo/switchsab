@@ -53,6 +53,19 @@ export class PostesService {
     );
   }
 
+  public async getByGroupe(id: number) {
+    const poste = await this.postesRepository.find({
+      where: { groupe: { id: id } },
+    });
+    if (poste) {
+      return poste;
+    }
+    throw new HttpException(
+      'Poste with this id does not exist',
+      HttpStatus.NOT_FOUND,
+    );
+  }
+
   public async update(id: number, posteData: posteCreateDto) {
     const groupe = await this.groupesRepository.findOne({
       where: { id: posteData.groupeId },

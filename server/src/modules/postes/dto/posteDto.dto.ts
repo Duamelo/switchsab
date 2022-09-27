@@ -5,7 +5,7 @@ export default class posteDto {
   @IsNotEmpty({ message: 'this nom must be define' })
   nom: string;
 
-  @IsNumber()
+  @IsString()
   @IsNotEmpty({ message: 'this status must be define' })
-  status: boolean;
+  status: string;
 }

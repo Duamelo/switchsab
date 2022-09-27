@@ -21,36 +21,36 @@ import GroupesPermission from '../users/permissions/groupesPermission.enum';
 export class GroupeController {
   constructor(private readonly groupesService: GroupesService) {}
 
-  @UseGuards(PermissionGuard(GroupesPermission.ReadGroupes))
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(PermissionGuard(GroupesPermission.ReadGroupes))
+  // @UseGuards(JwtAuthGuard)
   @Get()
   async index() {
     return this.groupesService.index();
   }
 
-  @UseGuards(PermissionGuard(GroupesPermission.ReadGroupes))
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(PermissionGuard(GroupesPermission.ReadGroupes))
+  // @UseGuards(JwtAuthGuard)
   @Get('/:id')
   async show(@Param('id') id: number) {
     return this.groupesService.getById(id);
   }
 
-  @UseGuards(PermissionGuard(GroupesPermission.CreateGroupes))
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(PermissionGuard(GroupesPermission.CreateGroupes))
+  // @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() groupeData: groupeCreateDto) {
     return this.groupesService.create(groupeData);
   }
 
-  @UseGuards(PermissionGuard(GroupesPermission.UpdateGroupes))
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(PermissionGuard(GroupesPermission.UpdateGroupes))
+  // @UseGuards(JwtAuthGuard)
   @Put('/:id')
   async update(@Body() groupeData: groupeCreateDto, @Param('id') id: number) {
     return this.groupesService.update(id, groupeData);
   }
 
-  @UseGuards(PermissionGuard(GroupesPermission.DeleteGroupes))
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(PermissionGuard(GroupesPermission.DeleteGroupes))
+  // @UseGuards(JwtAuthGuard)
   @Delete('/:id')
   async delete(@Param('id') id: number) {
     return this.groupesService.delete(id);

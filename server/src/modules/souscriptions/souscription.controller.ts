@@ -19,22 +19,22 @@ import SouscriptionsPermission from '../users/permissions/souscriptionsPermissio
 export class SouscriptionController {
   constructor(private readonly souscriptionsService: SouscriptionsService) {}
 
-  @UseGuards(PermissionGuard(SouscriptionsPermission.ReadSouscriptions))
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(PermissionGuard(SouscriptionsPermission.ReadSouscriptions))
+  // @UseGuards(JwtAuthGuard)
   @Get()
   async index() {
     return this.souscriptionsService.index();
   }
 
-  @UseGuards(PermissionGuard(SouscriptionsPermission.ReadSouscriptions))
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(PermissionGuard(SouscriptionsPermission.ReadSouscriptions))
+  // @UseGuards(JwtAuthGuard)
   @Get('/:id')
   async show(@Param('id') id: number) {
     return this.souscriptionsService.getById(id);
   }
 
-  @UseGuards(PermissionGuard(SouscriptionsPermission.CreateSouscriptions))
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(PermissionGuard(SouscriptionsPermission.CreateSouscriptions))
+  // @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() souscriptionData: souscriptionDto) {
     return this.souscriptionsService.create(souscriptionData);

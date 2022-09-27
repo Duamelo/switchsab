@@ -7,6 +7,7 @@ import Groupe from '../modules/groupes/groupe.entity';
 import Poste from '../modules/postes/poste.entity';
 import Souscription from 'src/modules/souscriptions/souscription.entity';
 import Tarif from 'src/modules/tarifs/tarif.entity';
+import FreePost from 'src/modules/freepost/freepost.entity';
 
 @Module({
   imports: [
@@ -20,7 +21,15 @@ import Tarif from 'src/modules/tarifs/tarif.entity';
         username: configService.get('POSTGRES_USER'),
         password: configService.get('POSTGRES_PASSWORD'),
         database: configService.get('POSTGRES_DB'),
-        entities: [User, Categorie, Groupe, Poste, Souscription, Tarif],
+        entities: [
+          User,
+          Categorie,
+          Groupe,
+          Poste,
+          Souscription,
+          Tarif,
+          FreePost,
+        ],
         synchronize: true,
       }),
     }),

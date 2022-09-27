@@ -20,7 +20,7 @@ const group_list = {
                   gp.push(t.groupe.id);
               });
       
-              var gps = gp.filter((x, i)=> gp.indexOf(x) === i);
+              var gps = gp.filter((x, i)=> gp.indexOf(x) === i); /* filtre pour ne pas avoir de doublons*/
       
               gps.map((gp_id, index)=>{
                   m.request({
@@ -67,7 +67,7 @@ const group_list = {
                         onclick: function(e){
                             m.request({
                                 method: "GET",
-                                url: server.url + "/tarifs/"+ gp.id,
+                                url: server.url + "/tarifs/groupe/"+ gp.id,
                             })
                             .then((response) => {
                                 if (response != undefined) {
@@ -77,7 +77,7 @@ const group_list = {
                                 }
                             }, (error) => {
                                 if (error.code == 400)
-                                    new_group.error = "Erreur de création de groupe"
+                                    new_group.error = "Erreur de chargement des tarifs du groupe " + gp.id;
                             })
                         }
                     }, 

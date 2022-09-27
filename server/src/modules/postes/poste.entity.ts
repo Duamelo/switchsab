@@ -18,11 +18,22 @@ class Poste extends BaseEntity {
   @Column({ nullable: true })
   public object_id: number;
 
+  @Column({ nullable: true, default: 0 })
+  public hour: number;
+
+  @Column({ nullable: true, default: 0 })
+  public minute: number;
+
+  @Column({ nullable: true, default: 0 })
+  public second: number;
+
+  @Column({ nullable: true, default: 0 })
+  public gamer: number;
+
   @Column({ nullable: false })
-  public status: boolean;
+  public status: string;
 
   @ManyToOne(() => Groupe, (groupe: Groupe) => groupe.postes)
   public groupe: Groupe;
 }
-
 export default Poste;

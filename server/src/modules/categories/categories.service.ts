@@ -12,7 +12,7 @@ export class CategoriesService {
   ) {}
 
   public async index() {
-    return this.categoriesRepository.find();
+    return this.categoriesRepository.find({ relations: { groupes: true } });
   }
 
   public async create(categorieData: categorieDto) {

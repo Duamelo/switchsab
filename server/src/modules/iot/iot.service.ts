@@ -4,10 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { connect } from 'mqtt';
 import { error, info } from 'ps-logger';
 import { Repository } from 'typeorm';
-import Groupe from '../groupes/groupe.entity';
 import Poste from '../postes/poste.entity';
-import Souscription from '../souscriptions/souscription.entity';
-import User from '../users/user.entity';
+import FreePost from '../freepost/freepost.entity';
 
 @Injectable()
 export class IotService implements OnModuleInit {
@@ -15,14 +13,10 @@ export class IotService implements OnModuleInit {
 
   constructor(
     private readonly configService: ConfigService,
+    @InjectRepository(FreePost)
+    private freepostesRepository: Repository<FreePost>,
     @InjectRepository(Poste)
     private postesRepository: Repository<Poste>,
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
-    @InjectRepository(Groupe)
-    private groupRepository: Repository<Groupe>,
-    @InjectRepository(Souscription)
-    private souscriptionRepository: Repository<Souscription>,
   ) {}
 
   async onModuleInit() {
@@ -54,20 +48,20 @@ export class IotService implements OnModuleInit {
         console.log('id_poste is ' + message);
         console.log('topic is ' + topic);
 
-        const poste_attribue = await this.postesRepository.findOne({
+        const freepost_exist = await this.freepostesRepository.find({
+          where: { id_object: Number(message) },
+        });
+
+        const attribute_post = await this.postesRepository.find({
           where: { object_id: Number(message) },
         });
 
-        if (!poste_attribue) {
-          const poste = await this.postesRepository.findOne({
-            where: { object_id: null },
+        if (!freepost_exist.length && !attribute_post.length) {
+          const _freepost = await this.freepostesRepository.create({
+            id_object: Number(message),
           });
-          console.log('poste libre');
-          console.log(poste);
-          if (poste) {
-            poste.object_id = Number(message);
-            await poste.save();
-          }
+
+          await this.freepostesRepository.save(_freepost);
         }
       }
     });

@@ -18,21 +18,21 @@ export class UserController {
   constructor(private userService: UsersService) {}
 
   @HttpCode(200)
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get(':id')
   async getById(@Param('id', ParseIntPipe) id: number) {
     return await this.userService.getById(id);
   }
 
   @HttpCode(200)
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get()
   async getByAllUsers() {
     return await this.userService.getByIds();
   }
 
   @HttpCode(200)
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -42,7 +42,7 @@ export class UserController {
   }
 
   @HttpCode(200)
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async deleteCustomer(@Param('id', ParseIntPipe) id: number) {
     return await this.userService.delete(id);

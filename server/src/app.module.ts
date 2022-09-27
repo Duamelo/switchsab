@@ -12,6 +12,7 @@ import { SouscriptionsModule } from './modules/souscriptions/souscriptions.modul
 import { TarifsModule } from './modules/tarifs/tarifs.module';
 import { UsersModule } from './modules/users/users.module';
 import { IotModule } from './modules/iot/iot.module';
+import { FreepostModule } from './modules/freepost/freepost.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -35,6 +36,7 @@ import { IotModule } from './modules/iot/iot.module';
     TarifsModule,
     UsersModule,
     IotModule,
+    FreepostModule,
   ],
   controllers: [AppController],
   providers: [AppService],

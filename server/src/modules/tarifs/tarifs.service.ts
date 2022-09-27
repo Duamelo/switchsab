@@ -57,6 +57,19 @@ export class TarifsService {
     );
   }
 
+  public async getByGroup(id: number) {
+    const tarif = await this.tarifsRepository.find({
+      where: { groupe: { id: id } },
+    });
+    if (tarif) {
+      return tarif;
+    }
+    throw new HttpException(
+      'Tarif with this id does not exist',
+      HttpStatus.NOT_FOUND,
+    );
+  }
+
   public async update(id: number, tarifData: tarifCreateDto) {
     const groupe = await this.groupesRepository.findOne({
       where: { id: tarifData.groupeId },
