@@ -74,7 +74,7 @@ export class PostesService {
     if (groupe) {
       posteData.groupeId = undefined;
 
-      this.postesRepository.update(id, { ...posteData });
+      await this.postesRepository.update(id, { ...posteData });
 
       const poste = await this.getById(id);
 
@@ -97,6 +97,6 @@ export class PostesService {
   }
 
   public async delete(id: number) {
-    return this.postesRepository.delete(id);
+    return await this.postesRepository.delete(id);
   }
 }

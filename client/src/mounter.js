@@ -1,6 +1,6 @@
 var m = require("mithril");
 var layout = require("./views/layout");
-const sidebar_dashboard = require("./components/sidebar/sidebar_dashboard");
+const {sidebar_dashboard} = require("./components/sidebar/sidebar_dashboard");
 const dashboard = require("./views/dashboard");
 const sidebar_client_mng = require("./components/sidebar/sidebar_client_mng");
 const client_mng = require("./views/client_mng");

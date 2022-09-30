@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import souscriptionDto from './dto/souscriptionDto.dto';
 import User from '../users/user.entity';
 import Tarif from '../tarifs/tarif.entity';
+import durationDto from './dto/duration.dto';
 
 @Injectable()
 export class SouscriptionsService {
@@ -75,6 +76,22 @@ export class SouscriptionsService {
     const souscription = await this.souscriptionsRepository.findOneBy({ id });
     if (souscription) {
       return souscription;
+    }
+    throw new HttpException(
+      'Souscription with this id does not exist',
+      HttpStatus.NOT_FOUND,
+    );
+  }
+
+  public async update(id: number, subscribing: durationDto) {
+    const subscribe = await this.souscriptionsRepository.findOne({
+      where: { id: id },
+    });
+    if (subscribe) {
+      subscribe.dureeRestante = subscribing.rest_duration;
+      await subscribe.save();
+
+      return subscribe;
     }
     throw new HttpException(
       'Souscription with this id does not exist',

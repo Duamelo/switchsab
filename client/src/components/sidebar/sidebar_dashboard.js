@@ -1,4 +1,5 @@
 var m = require('mithril');
+const server = require('../../config/server');
 const client = require('../../models/client');
 const group = require('../../models/group');
 const tarif = require('../../models/tarif');
@@ -62,6 +63,23 @@ const t_sidebar_dash = {
 
   set price(value){
     this._price = value;
+  },
+
+  submit(){
+    m.request({
+      headers: {
+          Authorization: "Bearer " + window.localStorage.jwt,
+      },
+      method: "POST",
+      url: server.url + "/souscriptions",
+      body: {
+          "clientId": t_sidebar_dash.id_client,
+          "tarifId": t_sidebar_dash.id_tarif,
+      }
+  })
+  .then((result)=>{
+      console.log(result);
+  });
   }
 }
 
@@ -142,7 +160,9 @@ const add_credit = {
           "class":"form-select",
           "aria-label":"Default select example",
           onclick: function(e){
-            t_sidebar_dash.id_tarif = tarif.list_by_group[e.target.value]['montant'];
+            t_sidebar_dash.id_tarif = tarif.list_by_group[e.target.value]['id'];
+            console.log("tarif id");
+            console.log(t_sidebar_dash.id_tarif);
             t_sidebar_dash.minute = tarif.list_by_group[e.target.value]['duree'];
             t_sidebar_dash.price = tarif.list_by_group[e.target.value]['montant'];
           }
@@ -204,7 +224,8 @@ const add_credit = {
             m("div", {"class":"col"}, 
                 m("button", {
                     "class":"btn float-start btn_color",
-                    "type":"button"
+                    "type":"button",
+                    onclick: t_sidebar_dash.submit
                 }, 
                     "Ajouter"
                 )
@@ -214,7 +235,7 @@ const add_credit = {
     ]
   }
 }
-module.exports = {
+const sidebar_dashboard = {
     view: function(vnode){
         return [
           m("div", {"class":"d-flex align-items-start text-dark"}, 
@@ -243,3 +264,5 @@ module.exports = {
         ]
     }
 }
+
+module.exports = {t_sidebar_dash, sidebar_dashboard};

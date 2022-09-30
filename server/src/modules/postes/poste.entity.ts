@@ -18,14 +18,8 @@ class Poste extends BaseEntity {
   @Column({ nullable: true })
   public object_id: number;
 
-  @Column({ nullable: true, default: 0 })
-  public hour: number;
-
-  @Column({ nullable: true, default: 0 })
-  public minute: number;
-
-  @Column({ nullable: true, default: 0 })
-  public second: number;
+  @Column({ nullable: true })
+  public start_time: Date;
 
   @Column({ nullable: true, default: 0 })
   public gamer: number;

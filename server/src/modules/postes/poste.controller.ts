@@ -42,7 +42,6 @@ export class PosteController {
     return this.postesService.getByGroupe(id);
   }
 
-
   // @UseGuards(PermissionGuard(PostesPermission.CreatePostes))
   // @UseGuards(JwtAuthGuard)
   @Post()

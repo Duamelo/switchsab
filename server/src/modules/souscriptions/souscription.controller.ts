@@ -5,12 +5,14 @@ import {
   Get,
   Param,
   Post,
+  Put,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import JwtAuthGuard from '../auth/jwt-auth.guard';
 import { SouscriptionsService } from './souscriptions.service';
 import souscriptionDto from './dto/souscriptionDto.dto';
+import durationDto from './dto/duration.dto';
 import PermissionGuard from '../shared/permission.guard';
 import SouscriptionsPermission from '../users/permissions/souscriptionsPermission.enum';
 
@@ -37,6 +39,16 @@ export class SouscriptionController {
   // @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() souscriptionData: souscriptionDto) {
-    return this.souscriptionsService.create(souscriptionData);
+    return await this.souscriptionsService.create(souscriptionData);
+  }
+
+  // @UseGuards(PermissionGuard(SouscriptionsPermission.CreateSouscriptions))
+  // @UseGuards(JwtAuthGuard)
+  @Put('/:id')
+  async updateSouscription(
+    @Body() subscribing: durationDto,
+    @Param('id') id: number,
+  ) {
+    return await this.souscriptionsService.update(id, subscribing);
   }
 }

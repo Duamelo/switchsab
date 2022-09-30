@@ -39,7 +39,7 @@ const box = {
             url: server.url + "/postes/",
             body: {
                 nom: 'post '+ `${box.object_id}`,
-                status: false,
+                status: 'off',
                 object_id: box.object_id,
                 groupeId: box.group_id
             }
