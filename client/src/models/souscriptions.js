@@ -14,7 +14,7 @@ const souscription = {
             url: server.url + "/souscriptions",
         })
         .then((result)=>{
-            console.log(result);
+            // console.log(result);
             souscription.list = result;
         });
     },

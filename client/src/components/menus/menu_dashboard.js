@@ -1,7 +1,7 @@
 var m = require('mithril');
 
 t_menu_bar = {
-    _state: "",
+    _state: false,
 
     set state(value){
         this._state = value;

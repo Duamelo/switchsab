@@ -8,6 +8,23 @@ const poste = require('../models/poste');
 
 const tabs = {
         _posts: [],
+        group: "az",
+        cpt : 0,
+
+        get_postes: (groupe)=>{
+            tabs._posts = [];
+            if(groupe == 'null')
+                poste.list.map((post, index)=>{
+                    tabs._posts.push(post);
+                });
+            else{
+                poste.list.map((post, index)=>{
+                    if(post.groupe.nom == groupe.nom)
+                        tabs._posts.push(post);
+                });
+            }
+            return tabs._posts;
+        },
 
         oninit(){
             group.load_group();
@@ -26,7 +43,7 @@ const tabs = {
                        [
                            m("li", {"class":"nav-item","role":"presentation"}, 
                                m("button", {
-                                   "class":"nav-link active text-dark",
+                                   "class":"nav-link text-dark",
                                    "id":"pills-home-tab",
                                    "data-bs-toggle":"pill",
                                    "data-bs-target":"#pills-home",
@@ -35,11 +52,29 @@ const tabs = {
                                    "aria-controls":"pills-home",
                                    "aria-selected":"true",
                                    onclick : function(e){
-                                      tabs._posts = [];
-                                      poste.list.map((post, index)=>{
+                                    var div = document.getElementById("cp");
+                                    tabs._posts = [];
+                                    poste.list.map((post, index)=>{
                                         tabs._posts.push(post);
-                                      })
-                                   }
+                                    });
+                                        !t_menu_bar.state ?
+                                            m.mount(div, {
+                                                view: function() { 
+                                                    return [
+                                                        m(tabs),
+                                                        m(table_postes, {posts: tabs._posts})
+                                                    ]
+                                                }
+                                            }) :
+                                            m.mount(div, {
+                                                view: function() { 
+                                                    return [
+                                                        m(tabs),
+                                                        m(list_postes, {posts: tabs._posts})
+                                                    ]
+                                                }
+                                            })
+                                }
                                }, 
                                "Tous les postes"
                                )
@@ -56,11 +91,29 @@ const tabs = {
                                     "aria-controls":"pills-profile",
                                     "aria-selected":"false",
                                     onclick: function(e){
+                                        var div = document.getElementById("cp");
                                         tabs._posts = [];
                                         poste.list.map((post, index)=>{
                                             if(post.groupe.nom == gp.nom)
                                                 tabs._posts.push(post);
-                                        })
+                                        });
+                                            !t_menu_bar.state ?
+                                                m.mount(div, {
+                                                    view: function() { 
+                                                        return [
+                                                            m(tabs),
+                                                            m(table_postes, {posts: tabs._posts})
+                                                        ]
+                                                    }
+                                                }) :
+                                                m.mount(div, {
+                                                    view: function() { 
+                                                        return [
+                                                            m(tabs),
+                                                            m(list_postes, {posts: tabs._posts})
+                                                        ]
+                                                    }
+                                                })
                                     }
                                 }, 
                                        gp.nom
@@ -78,7 +131,7 @@ const tabs = {
 module.exports = {
     view: function(vnode){
         return [
-            m("div", {
+            m("div#cp", {
                 "class": "container-fluid"
             }, 
             [
@@ -88,7 +141,6 @@ module.exports = {
                     "Mon tableau de bord"
                 ),
                 m(tabs),
-                 !t_menu_bar.state ? m(table_postes, {posts: tabs._posts}) : m(list_postes, {posts: tabs._posts})
             ])
         ]
     }

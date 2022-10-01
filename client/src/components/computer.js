@@ -1,5 +1,4 @@
 var m = require('mithril');
-const server = require('../config/server');
 const souscription = require('../models/souscriptions');
 const _poste = require('../models/update_poste');
 const { t_sidebar_dash } = require('./sidebar/sidebar_dashboard');
@@ -59,73 +58,6 @@ function computer(status){
     return {
         oninit(vnode){
             souscription.load_souscription(); 
-            _subscribing = [];
-            var duration, active_subscribing;
-            var start_time = vnode.attrs.poste.start_time ? vnode.attrs.poste.start_time : 0;
-            var h = Number(start_time[11] + start_time[12]) + 1;
-            var m = Number(start_time[14] + start_time[15]);
-            console.log(h + " heures " + m + " minutes");
-            var subscribing = vnode.attrs.subscribing;
-            var client_id = vnode.attrs.poste.gamer;
-            if(vnode.attrs.poste.status == 'on'){
-                subscribing.map((sb, index)=>{
-                    if((sb.clientId == client_id) && (sb.groupeId == vnode.attrs.poste.groupe.id)){
-                        _subscribing.push(sb);
-                    }
-                });
-                if(_subscribing.length){
-                    active_subscribing = _subscribing[_subscribing.length - 1];
-                    duration = active_subscribing.dureeRestante;
-                }
-                var s_hour = Math.floor(duration / 60);
-                var s_minute = duration - (60 * s_hour);
-
-                hour = new Date().getHours() - h;
-                minute = Math.abs(new Date().getMinutes() - m);
-                second = 59;
-                if( (s_hour - hour == 0) && (s_minute - minute == 0)){
-                    hour = 0;
-                    minute = 0;
-                    second = 0;
-                    m.request({
-                        headers: {
-                            Authorization: "Bearer " + window.localStorage.jwt,
-                        },
-                        method: "PUT",
-                        url: server.url + "/souscription/"+ active_subscribing.id,
-                        body: {
-                            'dureeRestante': 0,
-                        }
-                    })
-                    .then((result)=>{
-                        console.log(result);
-                    });
-                    m.request({
-                        headers: {
-                            Authorization: "Bearer " + window.localStorage.jwt,
-                        },
-                        method: "PUT",
-                        url: server.url + "/postes/"+ vnode.attrs.poste.id,
-                        body: {
-                            nom: vnode.attrs.poste.nom,
-                            status: 'off',
-                            groupeId: vnode.attrs.poste.groupe.id,
-                            start_time: null,
-                            gamer: 0
-                        }
-                    })
-                    .then((result)=>{
-                        console.log(result);
-                    });
-                    _total_time = show_time(hour, minute, second);
-                }
-                else{
-                    hour = s_hour - hour;
-                    minute = s_minute - minute;
-                    second = 59;
-                    test = 1;
-                }
-            }
         },
 
         view: function(vnode){
