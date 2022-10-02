@@ -15,7 +15,7 @@ t_menu_bar = {
 const menu_dashboard = {
     view: function(vnode){
         return [
-               m("div", {
+               m("div#sub_nav", {
                    "class": "container"
                }, [
                     m("div", {"class":"d-flex justify-content-end"}, 

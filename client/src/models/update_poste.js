@@ -3,7 +3,7 @@ var m = require('mithril');
 const server = require('../config/server');
 
 const _poste = {
-    update: function(start_time, state, name, poste_id, groupe_id, client_id, timer_id, r_duration, cpt, id_subscribing) {
+    update: function(start_time, state, poste_name, poste_id, groupe_id, client_id, timer_id, r_duration, cpt, id_subscribing) {
         m.request({
             headers: {
                 Authorization: "Bearer " + window.localStorage.jwt,
@@ -12,7 +12,7 @@ const _poste = {
             method: "PUT",
             url: server.url + "/postes/"+ poste_id,
             body: {
-                nom: name,
+                nom: poste_name,
                 status: state == true ? "on" : "off",
                 groupeId: groupe_id,
                 start_time: start_time,
@@ -43,7 +43,7 @@ const _poste = {
                             method: "PUT",
                             url: server.url + "/postes/"+ poste_id,
                             body: {
-                                nom: name,
+                                nom: poste_name,
                                 status: 'off',
                                 groupeId: groupe_id,
                                 start_time: null,
@@ -52,6 +52,10 @@ const _poste = {
                         })
                         .then((result)=>{
                             console.log(result);
+                            timer_store.map((t)=>{
+                                if(t.id == poste_id)
+                                    clearInterval(t.timer);
+                            });
                             clearInterval(timer_id);
                         });
                     });
@@ -79,7 +83,7 @@ const _poste = {
                             method: "PUT",
                             url: server.url + "/postes/"+ poste_id,
                             body: {
-                                nom: name,
+                                nom: poste_name,
                                 status: 'off',
                                 groupeId: groupe_id,
                                 start_time: null,
@@ -88,6 +92,7 @@ const _poste = {
                         })
                         .then((result)=>{
                             console.log(result);
+                            clearInterval(timer_id);
                         });
                     });
                 }
