@@ -1,0 +1,2 @@
+nombre de poste occupé
+nombre de poste à incident
