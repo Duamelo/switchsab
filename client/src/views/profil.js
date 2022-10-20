@@ -6,7 +6,7 @@ module.exports = {
         return m("div", {
             "class": ""
         }, [
-            
+            m("p", "hello world")
         ])
     }
 }

@@ -67,6 +67,16 @@ module.exports = {
                         ),
                         m("div", {"class":"d-flex"},
                             [
+                                m("span", {
+                                    "class":"",
+                                    onclick(e) {
+                                        window.localStorage.removeItem('jwt')
+                                        // m.mount(document.body, login)
+                                        window.location.reload()
+                                    }
+                                },
+                                    "duamelo"
+                                ),
                                 m("i", {
                                     "class":"bi bi-question-circle help"
                                 }),
@@ -77,9 +87,6 @@ module.exports = {
                                             "src": "./assets/profil2.png",
                                             "class": "profil_img",
                                             onclick(e) {
-                                                window.localStorage.removeItem('jwt')
-                                                // m.mount(document.body, login)
-                                                // window.location.reload()
                                                 m.route.set('/compte')
                                             }
                                         })

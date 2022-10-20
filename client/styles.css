@@ -191,7 +191,41 @@
     float: right;
 }
 
-.add_poste{
+.delete_admin_button{
+    position: relative;
+    bottom: 0px;
+    right: 70px;
+}
+
+
+.delete_admin_span{
     position: relative;
     bottom: 5px;
+}
+
+
+
+
+.delete_tarif_button{
+    position: relative;
+    bottom: 0px;
+    right: 130px;
+}
+
+
+.delete_tarif_span{
+    position: relative;
+    bottom: 5px;
+}
+
+
+.check_permission{
+    position: relative;
+    left: 100px;
+}
+
+.client_name{
+    position: relative;
+    top: 9px;
+    left: 45px;
 }

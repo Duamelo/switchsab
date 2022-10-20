@@ -49,8 +49,8 @@ const perform_count = (hour, minute, second, start_time, state, poste_name, post
         var span = document.getElementById(`${poste_id}`);
         span.innerHTML = _total_time;
 
-        var input = document.getElementById(`${client_name}`);
-        input.innerHTML = _total_time;
+        // var input = document.getElementById(`${client_name}`);
+        // input.innerHTML = _total_time;
 
     }, 1000);
 }
@@ -172,7 +172,6 @@ function computer(status){
             client.load_client();
             client_id = vnode.attrs.poste.gamer;
             var status = vnode.attrs.poste.status;
-            var client_name;
             state = vnode.attrs.poste.status =='on' ? true : false;
             start_time = vnode.attrs.poste.start_time != null ? vnode.attrs.poste.start_time : undefined;
             var groupe_id = vnode.attrs.poste.groupe.id;
@@ -233,6 +232,17 @@ function computer(status){
                             }, 3000);
                         }
                         else{
+                            // m.request({
+                            //     headers: {
+                            //         Authorization: "Bearer " + window.localStorage.jwt,
+                            //     },
+                            //     method: "GET",
+                            //     url: server.url + "/users/"+ t_sidebar_dash.id_client,
+                            // })
+                            // .then((result)=>{
+                            //     console.log(result);
+                            //     nom_client = result;
+                            // });
                             client.list.map((clt, index)=>{
                                 if(clt.id == t_sidebar_dash.id_client)
                                     client_name = clt.pseudo;

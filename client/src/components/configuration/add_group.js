@@ -39,7 +39,7 @@ const new_group = {
   set group(value){
     this._groups.push(...value); 
   },
-
+  
   submit(e){
     e.preventDefault();
     m.request({
@@ -52,7 +52,9 @@ const new_group = {
     }).then((response) => {
         if (response != undefined) {
           console.log(response);
-          group.addGroup(response);
+          console.log(group.list);
+          group.list.push(response);
+          console.log(group.list);
         }
     }, (error) => {
         if (error.code == 400)
@@ -65,8 +67,8 @@ const new_group = {
 const add_group = {
     oninit(){
       categories.load_categories();
+      group.load_group();
     },
-
     view(vnode){
         return [
             m("div", {"class":"d-flex align-items-start"}, 

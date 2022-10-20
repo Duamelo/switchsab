@@ -1,6 +1,7 @@
 var m = require('mithril');
 const server = require('../../config/server');
 const group = require('../../models/group');
+const { group_list } = require('../../views/tarif');
 
 const add_tarif = {
   label: "",
@@ -25,6 +26,7 @@ const add_tarif = {
     .then((response) => {
         if (response != undefined) {
           console.log(response);
+          group_list.tarifs_group.push(response);
         }
     }, (error) => {
         if (error.code == 400)

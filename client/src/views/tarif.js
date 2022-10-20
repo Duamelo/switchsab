@@ -110,6 +110,9 @@ const group_list_tarif = {
                     ),
                     m("th", {"scope":"col"}, 
                         "Tarifs"
+                    ),
+                    m("th", {"scope": "col"},
+                        "Suppression"
                     )
                     ]
                 )
@@ -130,57 +133,33 @@ const group_list_tarif = {
                             ),
                             m("td", 
                                 t.montant
+                            ),
+                            m("td", 
+                                m("button.delete_tarif_button", {
+                                    "class":"btn btn-outline-primary add_button",
+                                    "type":"button",
+                                    onclick:function(e){
+                                        group_list.tarifs_group.splice(index, 1),
+                                        m.request({
+                                            headers: {
+                                                Authorization: "Bearer " + window.localStorage.jwt,
+                                            },
+                                            method: "DELETE",
+                                            url: server.url + "/tarifs/"+t.id,
+                                        })
+                                        .then((result)=>{
+                                            console.log(result);
+                                        }, (error) => {
+                                            if (error.code == 400)
+                                            console.log(error);
+                                        });
+                                    }
+                                }, 
+                                 m("span.delete_tarif_span", "-")
+                                )
                             )
                         ]
                         )})
-                    // m("tr",
-                    // [
-                    //     m("th", {"scope":"row"},
-                    //     "1"
-                    //     ),
-                    //     m("td", 
-                    //     "zola"
-                    //     ),
-                    //     m("td", 
-                    //     "14"
-                    //     ),
-                    //     m("td", 
-                    //     "2000"
-                    //     )
-                    // ]
-                    // ),
-                    // m("tr",
-                    // [
-                    //     m("th", {"scope":"row"}, 
-                    //     "2"
-                    //     ),
-                    //     m("td", 
-                    //     "zola"
-                    //     ),
-                    //     m("td", 
-                    //     "14"
-                    //     ),
-                    //     m("td", 
-                    //     "2000"
-                    //     )
-                    // ]
-                    // ),
-                    // m("tr",
-                    // [
-                    //     m("th", {"scope":"row"}, 
-                    //     "3"
-                    //     ),
-                    //     m("td", 
-                    //     "zola"
-                    //     ),
-                    //     m("td", 
-                    //     "14"
-                    //     ),
-                    //     m("td", 
-                    //     "2000"
-                    //     )
-                    // ]
-                    // )
                 ]
                 )
             ]
@@ -189,7 +168,7 @@ const group_list_tarif = {
     }
 }
 
-module.exports = {
+const tarif = {
     view: function(vnode){
         return [
             m("div", {
@@ -210,3 +189,5 @@ module.exports = {
         ]
     }
 }
+
+module.exports = { tarif, group_list, group_list_tarif};

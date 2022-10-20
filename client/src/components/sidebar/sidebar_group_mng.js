@@ -1,18 +1,20 @@
 var m = require('mithril');
-const add_tarif = require('../tarif/add_tarif');
+const {add_group} = require('../configuration/add_group');
+
 
 
 const t_sidebar = {
-  _state: true,
-
-  get state(){
-    return this._state;
-  },
-
-  set state(value){
-    this._state = value;
-  }
+    _state: true,
+  
+    get state(){
+      return this._state;
+    },
+  
+    set state(value){
+      this._state = value;
+    }
 }
+  
 
 
 module.exports = {
@@ -34,9 +36,9 @@ module.exports = {
                       t_sidebar.state = !t_sidebar.state;
                     }
                 }, 
-                    "Nouveau Tarif"
+                    "Nouveau Groupe"
                 ),
-                t_sidebar.state ? m(add_tarif) : m("p", {}, "")
+                t_sidebar.state ? m(add_group) : m("p", {}, "")
               ]
             )
           )

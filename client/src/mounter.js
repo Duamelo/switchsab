@@ -9,7 +9,7 @@ const configuration = require("./views/configuration");
 const add_tarif = require("./components/tarif/add_tarif");
 const sidebar_tarif = require("./components/sidebar/sidebar_tarif");
 const group_mng = require("./components/configuration/group_mng");
-const tarif = require("./views/tarif");
+const {tarif} = require("./views/tarif");
 const {sidebar_poste} = require("./components/sidebar/sidebar_poste");
 const poste = require("./views/poste");
 const c_xbox = require("./components/posts/c_xbox");
@@ -18,6 +18,7 @@ const admin = require("./views/admin");
 const sidebar_report = require("./components/sidebar/sidebar_report");
 const report = require("./views/report");
 const profil = require("./views/profil");
+const sidebar_group_mng = require("./components/sidebar/sidebar_group_mng");
 
 
 function mountRoutes() {
@@ -35,12 +36,12 @@ function mountRoutes() {
             },
             "/configuration": {
                 render: function(){
-                    return m(layout, m(sidebar_configuration), m(configuration, m(group_mng)))
+                    return m(layout, m(sidebar_group_mng), m(configuration, m(group_mng)))
                 }
             },
             "/groupes": {
                 render: function(){
-                    return m(layout, m(sidebar_configuration), m(configuration, m(group_mng)))
+                    return m(layout, m(sidebar_group_mng), m(configuration, m(group_mng)))
                 }
             },
             "/tarifs": {

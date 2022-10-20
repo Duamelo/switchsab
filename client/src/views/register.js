@@ -1,4 +1,5 @@
 var m = require("mithril");
+const client = require("../models/client");
 const User = require('../models/users');
 
 
@@ -55,6 +56,9 @@ const credential = {
 
 
 module.exports = {
+  oninit(vnode){
+    client.load_client();
+  },
 	view: function(vnode){
 		return [
       m("div", {
