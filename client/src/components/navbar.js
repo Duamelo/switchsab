@@ -1,7 +1,14 @@
 var m = require('mithril');
+import jwt_decode from "jwt-decode";
+
 
 
 module.exports = {
+    oninit(vnode){
+        jeton = jwt_decode(window.localStorage['jwt']);
+        user_type = jeton.type;
+        console.log(jeton);
+    },
     view: function(vnode){
         return [
             m("nav", {"class":"navbar navbar-expand-lg"}, 
@@ -39,35 +46,40 @@ module.exports = {
                                     "Dashboard"
                                 )
                             ),
-                            m("li", {"class":"nav-item  navbar_li"}, 
-                                m(m.route.Link, {
-                                    "class":"nav-link active",
-                                    "href":"/gestion_client"
-                                }, 
-                                "Gestion Client"
+                            user_type == 'admin' || user_type == "promoteur" || user_type  == 'gerant' ?
+                                m("li", {"class":"nav-item  navbar_li"}, 
+                                    m(m.route.Link, {
+                                        "class":"nav-link active",
+                                        "href":"/gestion_client"
+                                    }, 
+                                    "Gestion Client"
+                                    )
+                                ) : "",
+                        user_type == 'admin' || user_type == "promoteur" || user_type  == 'gerant' ?
+                                m("li", {"class":"nav-item  navbar_li"}, 
+                                    m(m.route.Link, {
+                                        "class":"nav-link active",
+                                        "href":"/configuration"
+                                    }, 
+                                    "Configuration"
+                                    )
                                 )
-                            ),
-                            m("li", {"class":"nav-item  navbar_li"}, 
-                                m(m.route.Link, {
-                                    "class":"nav-link active",
-                                    "href":"/configuration"
-                                }, 
-                                "Configuration"
-                                )
-                            ),
-                            m("li", {"class":"nav-item  navbar_li"}, 
-                            m(m.route.Link, {
-                                "class":"nav-link active",
-                                "href":"/report"
-                            }, 
-                            "Rapport"
-                            )
-                        ),
+                                 : "",
+                                user_type != "client" ? 
+                                    m("li", {"class":"nav-item  navbar_li"}, 
+                                       jeton.access_report == true ?
+                                        m(m.route.Link, {
+                                            "class":"nav-link active",
+                                            "href":"/report"
+                                        }, 
+                                        "Rapport"
+                                        ) : ""
+                                ) : "",
                             ]
                         ),
                         m("div", {"class":"d-flex"},
                             [
-                                m("span", {
+                                m("span.pseudo", {
                                     "class":"",
                                     onclick(e) {
                                         window.localStorage.removeItem('jwt')
@@ -75,7 +87,7 @@ module.exports = {
                                         window.location.reload()
                                     }
                                 },
-                                    "duamelo"
+                                    jeton.pseudo
                                 ),
                                 m("i", {
                                     "class":"bi bi-question-circle help"

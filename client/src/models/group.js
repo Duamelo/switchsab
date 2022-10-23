@@ -19,7 +19,7 @@ const group = {
         .then((result)=>{
             group.list = [];
             group.list = result;
-            // console.log(group.list);
+            console.log(group.list) ;
         });
     },
 }

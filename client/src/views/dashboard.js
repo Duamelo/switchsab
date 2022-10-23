@@ -80,45 +80,48 @@ const tabs = {
                                )
                            ),
                             group.list.map((gp, index)=>{
-                               return m("li", {"class":"nav-item","role":"presentation"}, 
-                                   m("button", {
-                                    "class":"nav-link text-dark",
-                                    "id":"pills-profile-tab",
-                                    "data-bs-toggle":"pill",
-                                    "data-bs-target":"#pills-profile",
-                                    "type":"button",
-                                    "role":"tab",
-                                    "aria-controls":"pills-profile",
-                                    "aria-selected":"false",
-                                    onclick: function(e){
-                                        var div = document.getElementById("cp");
-                                        tabs._posts = [];
-                                        poste.list.map((post, index)=>{
-                                            if(post.groupe.nom == gp.nom)
-                                                tabs._posts.push(post);
-                                        });
-                                            !t_menu_bar.state ?
-                                                m.mount(div, {
-                                                    view: function() { 
-                                                        return [
-                                                            m(tabs),
-                                                            m(table_postes, {posts: tabs._posts})
-                                                        ]
-                                                    }
-                                                }) :
-                                                m.mount(div, {
-                                                    view: function() { 
-                                                        return [
-                                                            m(tabs),
-                                                            m(list_postes, {posts: tabs._posts})
-                                                        ]
-                                                    }
-                                                })
-                                    }
-                                }, 
-                                       gp.nom
-                                   )
-                               )
+                                console.log(gp);
+                                if(gp.categorie.nom != "manette"){
+                                    return m("li", {"class":"nav-item","role":"presentation"}, 
+                                    m("button", {
+                                        "class":"nav-link text-dark",
+                                        "id":"pills-profile-tab",
+                                        "data-bs-toggle":"pill",
+                                        "data-bs-target":"#pills-profile",
+                                        "type":"button",
+                                        "role":"tab",
+                                        "aria-controls":"pills-profile",
+                                        "aria-selected":"false",
+                                        onclick: function(e){
+                                            var div = document.getElementById("cp");
+                                            tabs._posts = [];
+                                            poste.list.map((post, index)=>{
+                                                if(post.groupe.nom == gp.nom)
+                                                    tabs._posts.push(post);
+                                            });
+                                                !t_menu_bar.state ?
+                                                    m.mount(div, {
+                                                        view: function() { 
+                                                            return [
+                                                                m(tabs),
+                                                                m(table_postes, {posts: tabs._posts})
+                                                            ]
+                                                        }
+                                                    }) :
+                                                    m.mount(div, {
+                                                        view: function() { 
+                                                            return [
+                                                                m(tabs),
+                                                                m(list_postes, {posts: tabs._posts})
+                                                            ]
+                                                        }
+                                                    })
+                                        }
+                                    }, 
+                                        gp.nom
+                                    )
+                                )
+                                }
                             })
                        ]
                    )

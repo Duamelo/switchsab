@@ -29,12 +29,17 @@ const souscription = {
                 url: server.url + "/users",
             })
             .then((result)=>{
-                client_name = result;
+                console.log("dans la fonction souscrition");
+                console.log(result);
+                result.map((user, index)=>{
+                    if(user.id == client_id)
+                        client_name = user.pseudo;
+                })
                 if(status == 'on')
-                callback(
-                    client_id, groupe_id, poste_id,
-                    s_time, _total_time, hour, minute, second, status, state, 
-                    poste_name, r_duration, cpt, client_name
+                    callback(
+                        client_id, groupe_id, poste_id,
+                        s_time, _total_time, hour, minute, second, status, state, 
+                        poste_name, r_duration, cpt, client_name
                     );
             });
            

@@ -1,4 +1,5 @@
 var m = require('mithril');
+const server = require('../../config/server');
 const group = require('../../models/group');
 
 const group_mng = {
@@ -27,6 +28,9 @@ const group_mng = {
                         ),
                         m("th", {"scope":"col"}, 
                             "Actions"
+                        ),
+                        m("th", {"scope":"col"}, 
+                        "Supprimer"
                         )
                         ]
                     )
@@ -68,7 +72,27 @@ const group_mng = {
                                         "X"
                                         )
                                     ]
-                                    )
+                                    ),
+                                   m("td", 
+                                        m("button", {
+                                            "class":"btn btn-outline-primary add_button delete_client",
+                                            "type":"button",
+                                            onclick(e){
+                                                group.list.splice(index, 1);
+                                                m.request({
+                                                    headers: {
+                                                        Authorization: "Bearer " + window.localStorage.jwt,
+                                                    },
+                                                    method: "DELETE",
+                                                    url: server.url + "/groupes/" + gp.id,
+                                                })
+                                                .then((result)=>{
+                                                    console.log(result);
+                                                });
+                                            }
+                                        }, 
+                                        m("span.delete_client_span", "-"))
+                                   )
                                 ])
                         }),
                     ]

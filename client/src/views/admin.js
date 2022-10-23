@@ -39,9 +39,6 @@ module.exports = {
                         m("tr",
                             [
                             m("th", {"scope":"col"}, 
-                                "nom et prénom"
-                            ),
-                            m("th", {"scope":"col"}, 
                                 "pseudo"
                             ),
                             m("th", {"scope":"col"}, 
@@ -59,12 +56,9 @@ module.exports = {
                         m("tbody",
                         [
                             client.list.map((admin, index)=>{
-                                if(admin.type != 'client')
+                                if(admin.type != 'client'){
                                     return m("tr",
                                     [
-                                        m("td", 
-                                        admin.nom+ " " + admin.prenoms
-                                        ),
                                         m("td", 
                                         admin.pseudo
                                         ),
@@ -72,18 +66,48 @@ module.exports = {
                                             admin.type
                                         ),
                                         m("td.form-switch", 
-                                            m("input", 
+                                            m("input." + `${admin.pseudo}`, 
                                                 {
                                                     "class":"form-check-input check_permission",
                                                     "type":"checkbox",
                                                     "role":"switch",
                                                     "id":"flexSwitchCheckChecked",
-                                                    // "checked":'off',
+                                                    "checked": admin.access_report ? "checked" : "",
                                                     onclick: function(e){
-                                                        console.log("checkbox authorization");
-                                                        // console.log(e.target.value);
-                                                        autorisation.state = !autorisation.state;
-                                                        console.log(autorisation.state);
+                                                        console.log("accessss report");
+                                                        console.log(admin.access_report);
+                                                       
+                                                        m.request({
+                                                            headers: {
+                                                                Authorization: "Bearer " + window.localStorage.jwt,
+                                                            },
+                                                            method: "PUT",
+                                                            url: server.url + "/users/access_report/" + admin.id,
+                                                            body: {
+                                                                pseudo: admin.pseudo,
+                                                                access_report: !admin.access_report
+                                                            }
+                                                        })
+                                                        .then((result)=>{
+                                                            console.log("resssssssssssssssssssssssult");
+                                                            console.log(result);
+                                                            if(admin.access_report == false){
+                                                                admin.access_report = true;
+                                                                var input = document.querySelector("."+`${admin.pseudo}`);
+                                                                console.log(input);
+                                                                input.setAttribute("checked", "checked");
+                                                            }
+                                                            else{
+                                                                admin.access_report = false;
+                                                                jeton.access_report = false;
+                                                                var input = document.querySelector("."+`${admin.pseudo}`);
+                                                                console.log(input);
+                                                                input.setAttribute("checked", "");
+                                                            }
+                                                        }, (error) => {
+                                                            if (error.code == 400)
+                                                              console.log(error);
+                                                        });
                                                     }
                                                 }
                                             )
@@ -116,6 +140,7 @@ module.exports = {
                                         )
                                     ]
                                 )
+                                }
                             })
                         ]
                         )

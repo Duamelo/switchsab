@@ -32,7 +32,7 @@ const credential = {
         this._password = value;
     },
     login(e) {
-        e.preventDefault()
+        e.preventDefault();
         m.request({
             method: "POST",
             url: server.url + "/auth/log-in",

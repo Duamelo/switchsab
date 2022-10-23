@@ -5,6 +5,9 @@ const client = require('../models/client');
 
 
 module.exports = {
+    oninit(vnode){
+        client.getByGroup();
+    },
     view: function(vnode){
         var modal;
         return [
@@ -26,20 +29,16 @@ module.exports = {
                         m("th", {"scope":"col"}, 
                             "Nom d'utilisateur"
                         ),
-                        m("th", {"scope":"col"}, 
-                            "Groupe 1"
-                        ),
-                        m("th", {"scope":"col"}, 
-                            "Groupe 2"
-                        ),
-                        m("th", {"scope":"col"}, 
-                            "Groupe 3"
-                        ),
+                        client.groupes.map((gp, index)=>{
+                            return m("th", 
+                                gp.nom
+                            )
+                        }),
                         m("th", {"scope":"col"}, 
                             "Punition"
                         ),
                         m("th", {"scope":"col"}, 
-                        ""
+                            "Supprimer"
                         )
                         ]
                     )
@@ -49,29 +48,24 @@ module.exports = {
                     [
                         m("tr",
                         [
-                            m("th", {"scope":"row"}, 
-                            "John Doe"
-                            ),
-                            m("td", 
-                            "HH:MM:SS"
-                            ),
-                            m("td", 
-                            "HH:MM:SS"
-                            ),
-                            m("td", 
-                            "HH:MM:SS"
-                            ),
+                            // client.client_with_group.map((cl, index)=>{
+                            //     return m("td", 
+                            //         cl.clientId
+                            //     )
+                            // }),
+                            m("td", 'John Doe'),
+                            client.groupes.map((g, index)=>{
+                                return m("td", 
+                                    "HH:MM:SS"
+                                )
+                            }),
                             m("td", 
                             "0"
                             ),
                             m("td", 
                             m("button", {
-                                "class":"btn btn-outline-primary add_button",
+                                "class":"btn btn-outline-primary add_button delete_client",
                                 "type":"button",
-                                // onclick:function(e){
-                                //     box.object_id = pt.id_object;
-                                //     box.attribute_poste();
-                                // }
                                 onclick(e){
                                     // modal = document.getElementById("modal");
                                     // m.mount(modal, {
@@ -81,7 +75,7 @@ module.exports = {
                                     // });
                                 }
                             }, 
-                            m("span.add_poste", "-"))
+                            m("span.delete_client_span", "-"))
                             )
                         ]
                         ),

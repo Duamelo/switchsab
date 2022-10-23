@@ -92,6 +92,10 @@ const _poste = {
                         })
                         .then((result)=>{
                             console.log(result);
+                            timer_store.map((t)=>{
+                                if(t.id == poste_id)
+                                    clearInterval(t.timer);
+                            });
                             clearInterval(timer_id);
                         });
                     });

@@ -27,6 +27,7 @@ const tarif = {
         })
         .then((result)=>{
             tarif.list = result;
+            console.log(tarif.list);
         });
     }
 }

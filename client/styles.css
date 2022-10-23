@@ -26,6 +26,10 @@
     width: 100%;
 }
 
+.profil:hover{
+    cursor: pointer;
+}
+
 .help{
     margin-right: 30px;
     margin-top: 15px;
@@ -194,7 +198,7 @@
 .delete_admin_button{
     position: relative;
     bottom: 0px;
-    right: 70px;
+    right: 135px;
 }
 
 
@@ -228,4 +232,24 @@
     position: relative;
     top: 9px;
     left: 45px;
+}
+
+.delete_client{
+    position: relative;
+    right: 60px;
+}
+
+.delete_client_span{
+    position: relative;
+    bottom: 5px;
+}
+
+.pseudo{
+    position: relative;
+    top: 15px;
+    right: 10px;
+}
+
+.pseudo:hover{
+    cursor: pointer;
 }

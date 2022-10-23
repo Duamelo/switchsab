@@ -20,7 +20,6 @@ const report = require("./views/report");
 const profil = require("./views/profil");
 const sidebar_group_mng = require("./components/sidebar/sidebar_group_mng");
 
-
 function mountRoutes() {
     document.body.className = "";
         m.route(document.body, "/dashboard", {

@@ -11,6 +11,8 @@ const new_group = {
 
   _category: 0,
 
+  cat_name: "",
+
   error: "",
   errorDisplay() {
       return new_group.error != "" ? "" : "none"
@@ -42,6 +44,7 @@ const new_group = {
   
   submit(e){
     e.preventDefault();
+    group.list.push({categorie: {nom: new_group.cat_name}, nom: new_group.nom});
     m.request({
         method: "POST",
         url: server.url + "/groupes",
@@ -51,9 +54,6 @@ const new_group = {
         }
     }).then((response) => {
         if (response != undefined) {
-          console.log(response);
-          console.log(group.list);
-          group.list.push(response);
           console.log(group.list);
         }
     }, (error) => {
@@ -102,6 +102,8 @@ const add_group = {
                       "aria-label":"Default select example",
                       onclick: function(e){
                         new_group.category = categories.list[e.target.value]['id'];
+                        new_group.cat_name = categories.list[e.target.value]['nom'];
+                        console.log(new_group.cat_name);
                       }
                     },
                       [

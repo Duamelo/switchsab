@@ -140,11 +140,13 @@ const add_credit = {
         },
           [
             group.list.map((gp, index)=>{
-              return m("option", {
-                "value": index,
-              },
-                gp.nom
-              )
+              if(gp.categorie.nom != "manette"){
+                return m("option", {
+                  "value": index,
+                },
+                  gp.nom
+                )
+              }
             })
           ]
         )
@@ -211,7 +213,7 @@ const add_credit = {
             )
         ]
       ),
-      m("div", {"class":"row mt-3"},
+      m("div", {"class":"row mt-3 mb-5"},
         [
             m("div", {"class":"col"}, 
                 m("button", {
