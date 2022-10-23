@@ -92,7 +92,8 @@ const add_tarif = {
                   },
                     [
                       group.list.map((gp, index)=>{
-                        return m("option", {"value": index}, gp.nom )
+                        if(gp.categorie.nom != "manette")
+                          return m("option", {"value": index}, gp.nom )
                       }),
                     ]
                   )

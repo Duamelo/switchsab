@@ -1,4 +1,5 @@
 var m = require("mithril");
+const server = require("../config/server");
 const client = require("../models/client");
 const User = require('../models/users');
 
@@ -6,9 +7,16 @@ const User = require('../models/users');
 const credential = {
     check: 0,
     error: "",
+    error_reg: "",
+
     errorDisplay() {
         return credential.error != "" ? "" : "none"
     },
+
+    error_register(){
+      return credential.error_reg != "" ? "" : "none";
+    },
+
     canSubmit() {
         return credential.email != "" && credential.password != ""
     },
@@ -36,24 +44,36 @@ const credential = {
     },
     register(e) {
         e.preventDefault();
-        console.log('register');
-        for(var user of User){
-        	console.log("loop");
-            if((user.username != credential.username) && (user.password != credential.password))
-                credential.check++;
+        if(credential.password == credential.confirm_password){
+          console.log("mot de passe match");
+          m.request({
+            method: "POST",
+            url: server.url + "/auth/register",
+            body: {
+              pseudo: credential.username,
+              password: credential.password,
+              type: "client"
+            }
+          }).then((response) => {
+            if (response != undefined) {
+              credential.error_reg = "utilisateur " + credential.username + " bien enregistré";
+              m.route.set('/login');
+              console.log(response);
+            }
+          }, (error) => {
+            if (error.code == 400)
+              console.log(error);
+          })
         }
-        if((credential.check == User.length) && (credential.password == credential.confirm_password)){
-        	console.log(credential.check);
-    		User.push({"username": credential.username, "password": credential.password, "role": "client"});
-    		console.log(User);
-    		m.route.set('/login');
+        else{
+          credential.error = " votre mot de passe ne correspond pas !";
+          setTimeout(() => {
+            credential.error_reg = "";
+            m.redraw();
+          }, 5000);
         }
-        if(credential.check == 0)
-            credential.error = "Erreur d'enregistrement de compte";
     }
 }
-
-
 
 module.exports = {
   oninit(vnode){
@@ -114,7 +134,7 @@ module.exports = {
                           m("input", {
                             "class":"form-control",
                             "type":"email",
-                            "placeholder": "John Doe",
+                            "placeholder": "pseudo",
                             oninput: function(e) {
                               credential.username = e.target.value
                             },
@@ -141,7 +161,7 @@ module.exports = {
                       m("div", {"class":"mb-3"},
                       [
                         m("label", {"class":"form-label"}, 
-                          "Confirmation mot de passe"
+                          "Confirmation du mot de passe"
                         ),
                         m("input", {
                           "class":"form-control",
@@ -154,6 +174,13 @@ module.exports = {
                         })
                       ]
                     ),
+                      m(".alert.alert-danger[role='alert']#check_register", {
+                          "style": {
+                              "display": credential.error_register(),
+                          }
+                      }, 
+                        credential.error_reg
+                      ),
                       m("button", {
                         "class":"btn btn_login mb-3",
                         "type":"submit",

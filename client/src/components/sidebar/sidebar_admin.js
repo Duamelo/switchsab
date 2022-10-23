@@ -36,16 +36,8 @@ const add_admin = {
         url: server.url + "/auth/register",
         body: {
             "pseudo": add_admin.identifiant,
-            "nom": add_admin.nom,
-            "prenoms": add_admin.prenom,
             "password" : add_admin.mot_de_passe,
             "type": add_admin.type,
-            "permissions": ["CreatePostes", "ReadPostes", "UpdatePostes", "DeletePostes",
-             "CreateCategories", "ReadCategories", "UpdateCategories", "DeleteCategories",
-            "CreateGroupes", "ReadGroupes", "UpdateGroupes", "DeleteGroupes", "GenererRapport",
-            "CreateSouscriptions", "ReadSouscriptions", "UpdateSouscriptions", "DeleteSouscriptions", 
-            "CreateTarifs", "ReadTarifs", "UpdateTarifs", "DeleteTarifs"],
-            "phone": ""
           }
       })
       .then((response) => {
@@ -87,42 +79,6 @@ const add_admin = {
                   ]
                 )
             ]),
-            m("div", {
-                "class": "mb-3"
-              },[
-                m("label", 
-                  "Nom"
-                ), 
-                m("br"), 
-                m("input", {
-                    "class":"form-control",
-                    "type":"text",
-                    "placeholder": " Doe",
-                    oninput: function(e) {
-                        add_admin.nom = e.target.value;
-                        console.log(add_admin.nom);
-                    },
-                  }),
-                ]
-            ),
-            m("div", {
-              "class": "mb-3"
-            },[
-              m("label", 
-                "Prénom"
-              ), 
-              m("br"), 
-              m("input", {
-                  "class":"form-control",
-                  "type":"text",
-                  "placeholder": "John ",
-                  oninput: function(e) {
-                    add_admin.prenom = e.target.value;
-                    console.log(add_admin.prenom);
-                  },
-                }),
-              ]
-          ),
             m("div", {
                 "class": "mb-3"
               },[
