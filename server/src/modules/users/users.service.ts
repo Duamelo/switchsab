@@ -99,4 +99,15 @@ export class UsersService {
       throw new HttpException('Failed to update', HttpStatus.NOT_FOUND);
     }
   }
+
+  public async update_report_access(id: number, user: UpdateUserDto) {
+    const _user = await this.usersRepository.find({ where: { id: id } });
+
+    if (_user.length != 0) {
+      const update_user = await this.usersRepository.update(id, user);
+
+      if (update_user) return update_user;
+      throw new HttpException('Failed to update', HttpStatus.NOT_FOUND);
+    }
+  }
 }

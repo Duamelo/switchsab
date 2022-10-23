@@ -41,6 +41,14 @@ export class UserController {
     return await this.userService.update(id, user);
   }
 
+  @Put('/access_report/:id')
+  async update_report_access(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() user: UpdateUserDto,
+  ) {
+    return await this.userService.update_report_access(id, user);
+  }
+
   @HttpCode(200)
   // @UseGuards(JwtAuthGuard)
   @Delete(':id')

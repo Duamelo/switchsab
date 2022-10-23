@@ -39,8 +39,13 @@ export class AuthService {
     }
   }
 
-  public async generateToken(id: number) {
-    const payload = { id };
+  public async generateToken(
+    id: number,
+    pseudo: string,
+    type: string,
+    access_report: boolean,
+  ) {
+    const payload = { id, pseudo, type, access_report };
     const token = this.jwtService.sign(payload, {
       secret: this.configService.get('JWT_ACCESS_TOKEN_SECRET'),
       expiresIn: `${this.configService.get('JWT_EXPIRATION_TIME')}s`,

@@ -13,10 +13,10 @@ class User {
   @PrimaryGeneratedColumn()
   public id?: number;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   public nom: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   public prenoms: string;
 
   @Column({ unique: true })
@@ -25,7 +25,10 @@ class User {
   @Column({ nullable: false })
   public type: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, default: false })
+  public access_report: boolean;
+
+  @Column({ nullable: true })
   public phone: string;
 
   @Column({

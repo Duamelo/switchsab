@@ -1,20 +1,21 @@
 import { IsNotEmpty } from 'class-validator';
 
 export class UpdateUserDto {
-  @IsNotEmpty()
+  // @IsNotEmpty()
   readonly nom: string;
 
-  @IsNotEmpty()
+  // @IsNotEmpty()
   readonly prenoms: string;
 
   @IsNotEmpty()
   readonly pseudo: string;
 
-  @IsNotEmpty()
+  // @IsNotEmpty()
   readonly phone: string;
 
-  @IsNotEmpty()
+  // @IsNotEmpty()
   password: string;
-}
 
+  access_report: boolean;
+}
 export default UpdateUserDto;
