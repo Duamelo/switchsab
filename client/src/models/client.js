@@ -30,6 +30,8 @@ const client = {
     },
     client_with_group: {},
     groupes: [],
+    last_filtre: [],
+    filtre: [],
     getByGroup: function(){
         var client_ids = [], group_ids = [];
         
@@ -45,8 +47,6 @@ const client = {
                 client_ids.push(r.clientId);
                 group_ids.push(r.groupeId);
             });
-            var last_filtre = [];
-            var filtre = [];
             // console.log(client_ids);
             // console.log(group_ids);
 
@@ -68,21 +68,47 @@ const client = {
                 // console.log(c_id);
                 group_ids.filter((value, index, self)=> self.indexOf(value) === index).map((g_id, index)=>{
                     // console.log(g_id);
-                    filtre = [];
+                    client.filtre = [];
                     result.map((r, index)=>{
                         if(c_id == r.clientId && g_id == r.groupeId){
-                            filtre.push(r);
+                            client.filtre.push(r);
                         }
                     });
-                    if(filtre.length != 0){
-                        last_filtre.push(filtre[filtre.length - 1]);
-                        // console.log(last_filtre);
-                        // console.log(filtre[filtre.length - 1]);
+                    if(client.filtre.length != 0){
+                        client.last_filtre.push(client.filtre[client.filtre.length - 1]);
+                        // console.log(client.filtre[client.filtre.length - 1]);
                     }
                 });
             });
+            client.last_filtre.map((v, index)=>{
+                m.request({
+                    headers: {
+                        Authorization: "Bearer " + window.localStorage.jwt,
+                    },
+                    method: "GET",
+                    url: server.url + "/groupes/" + v.groupeId,
+                })
+                .then((result)=>{
+                    m.request({
+                        headers: {
+                            Authorization: "Bearer " + window.localStorage.jwt,
+                        },
+                        method: "GET",
+                        url: server.url + "/users/" + v.clientId,
+                    })
+                    .then((user)=>{
+                        client.last_filtre.map((i, index)=>{
+                            if(i.groupeId == v.groupeId && i.clientId == v.clientId){
+                                i.groupeId = result.nom;
+                                i.client_name = user.pseudo;
+                            }
+                        });
+                    });
+                });
+            });
+            console.log(client.last_filtre);
             var gr = [];
-            last_filtre.map((v, index)=>{
+            client.last_filtre.map((v, index)=>{
                 // console.log(v);
                 gr = [];
                
@@ -96,14 +122,15 @@ const client = {
                 })
                 .then((result)=>{
                     // console.log(result);
-                    last_filtre.filter((value, index, self)=> value.clientId == v.clientId).map((s, index)=>{
+                    client.last_filtre.filter((value, index, self)=> value.clientId == v.clientId).map((s, index)=>{
                         // console.log(s);
                         // console.log(s.groupeId);
                         gr.push(s.dureeRestante);
                     });
                     client.client_with_group[`${result.pseudo}`] = [...gr];
                     gr = [];
-                    console.log(client.client_with_group);
+                    // console.log(client.client_with_group);
+                    // console.log(Object.keys(client.client_with_group));
                 });
             });
             // console.log(gr);

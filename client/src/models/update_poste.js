@@ -1,6 +1,7 @@
 
 var m = require('mithril');
 const server = require('../config/server');
+const souscription = require('./souscriptions');
 
 const _poste = {
     update: function(start_time, state, poste_name, poste_id, groupe_id, client_id, timer_id, r_duration, cpt, id_subscribing) {
@@ -57,6 +58,9 @@ const _poste = {
                                     clearInterval(t.timer);
                             });
                             clearInterval(timer_id);
+                            setTimeout(()=>{
+                                souscription.load_souscription();
+                            }, 2000);
                         });
                     });
                 }

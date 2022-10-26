@@ -29,11 +29,12 @@ module.exports = {
                         m("th", {"scope":"col"}, 
                             "Nom d'utilisateur"
                         ),
-                        client.groupes.map((gp, index)=>{
-                            return m("th", 
-                                gp.nom
-                            )
-                        }),
+                        m("th", {"scope":"col"}, 
+                            "Groupe"
+                        ),
+                        m("th", {"scope":"col"}, 
+                        "forfait"
+                        ),
                         m("th", {"scope":"col"}, 
                             "Punition"
                         ),
@@ -46,39 +47,59 @@ module.exports = {
                     Modal.placeholder,
                     m("tbody",
                     [
-                        m("tr",
-                        [
-                            // client.client_with_group.map((cl, index)=>{
-                            //     return m("td", 
-                            //         cl.clientId
-                            //     )
-                            // }),
-                            m("td", 'John Doe'),
-                            client.groupes.map((g, index)=>{
-                                return m("td", 
-                                    "HH:MM:SS"
-                                )
-                            }),
-                            m("td", 
-                            "0"
-                            ),
-                            m("td", 
-                            m("button", {
-                                "class":"btn btn-outline-primary add_button delete_client",
-                                "type":"button",
-                                onclick(e){
-                                    // modal = document.getElementById("modal");
-                                    // m.mount(modal, {
-                                    //     view: function () {
-                                    //         return m(Modal, activate_poste);
-                                    //     }
-                                    // });
-                                }
-                            }, 
-                            m("span.delete_client_span", "-"))
-                            )
-                        ]
-                        ),
+                        // Object.keys(client.client_with_group).map((client_name, index)=>{
+                        //     return [
+                        //         m("tr", [
+                        //             m("td", client_name),
+                        //             m("td", "xbox"),
+                        //             client.client_with_group[client_name].map((duration, index)=>{
+                        //                 return m("td", duration | 0)
+                        //             }),
+                        //             m("td", 
+                        //             "0"
+                        //             ),
+                        //             m("td", 
+                        //             m("button", {
+                        //                 "class":"btn btn-outline-primary add_button delete_client",
+                        //                 "type":"button",
+                        //                 onclick(e){
+                                        
+                        //                 }
+                        //             }, 
+                        //             m("span.delete_client_span", "-"))
+                        //             )
+                        //         ])
+                        //     ]
+                        // }),
+                        client.last_filtre.map(({clientId, client_name, groupeId, dureeRestante})=>{
+                            return [
+                               m("tr", [
+                                    m("td", client_name),
+                                    m("td", groupeId),
+                                    m("td", dureeRestante),
+                                    m("td.punition", 0),
+                                    m("td", 
+                                        m("button", {
+                                            "class":"btn btn-outline-primary  delete_mgn_client",
+                                            "type":"button",
+                                            onclick(e){
+                                                m.request({
+                                                    headers: {
+                                                        Authorization: "Bearer " + window.localStorage.jwt,
+                                                    },
+                                                    method: "DELETE",
+                                                    url: server.url + "/users/" + clientId,
+                                                })
+                                                .then((result)=>{
+                                                    console.log(result);
+                                                });
+                                            }
+                                        }, 
+                                        m("span.delete_client_span", "-"))
+                                    )
+                               ])
+                            ]
+                        })
                     ]
                     )
                 ]

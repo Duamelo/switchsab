@@ -253,3 +253,13 @@
 .pseudo:hover{
     cursor: pointer;
 }
+
+.punition{
+    position: relative;
+    left: 40px;
+}
+
+.delete_mgn_client{
+    position: relative;
+    left: 40px;
+}

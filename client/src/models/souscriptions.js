@@ -29,8 +29,8 @@ const souscription = {
                 url: server.url + "/users",
             })
             .then((result)=>{
-                console.log("dans la fonction souscrition");
-                console.log(result);
+                // console.log("dans la fonction souscrition");
+                // console.log(result);
                 result.map((user, index)=>{
                     if(user.id == client_id)
                         client_name = user.pseudo;

@@ -80,7 +80,7 @@ const tabs = {
                                )
                            ),
                             group.list.map((gp, index)=>{
-                                console.log(gp);
+                                // console.log(gp);
                                 if(gp.categorie.nom != "manette"){
                                     return m("li", {"class":"nav-item","role":"presentation"}, 
                                     m("button", {

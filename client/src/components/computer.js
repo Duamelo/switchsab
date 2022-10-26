@@ -147,7 +147,6 @@ var retrieve_subscribing = (client_id, groupe_id, poste_id, s_time, _total_time,
                     _total_time = show_time(hour, minute, second):
                         _total_time = show_time(0, 0, 0) ;
     
-                cons
                 console.log(_total_time);
                 if(s_time)
                     perform_count(hour, minute, second, s_time, state, poste_name, poste_id, groupe_id, client_id, r_duration, cpt, active_subscribing.id, client_name);
@@ -303,7 +302,7 @@ function computer(status){
                                 else{
                                     state = !state;
                                     if(state){
-                                        cpt = 1;
+                                        cpt = 0;
                                         console.log("debuggggggggggggggggggggggggggggggggggg");
                                         console.group(state);
                                         hour = Math.floor(duration / 60);
@@ -378,10 +377,6 @@ function computer(status){
                                             var h_rest = t_hour - h_duration;
                                             var m_rest = t_minute - m_duration;
                                             r_duration = m_rest + h_rest * 60;
-    
-                                            setTimeout(()=>{
-                                                souscription.load_souscription();
-                                            }, 3000);
                                         }
                                         else{
                                             cpt = 2;
