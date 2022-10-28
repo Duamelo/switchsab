@@ -43,7 +43,7 @@ const credential = {
         }).then((response) => {
             if (response != undefined) {
                 jwt.token = response.token
-                mountRoutes()
+                mountRoutes();
             }
         }, (error) => {
             if (error.code == 400)

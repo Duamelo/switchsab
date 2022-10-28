@@ -434,14 +434,11 @@ COPY public.categorie (id, nom) FROM stdin;
 --
 
 COPY public.freepost (id, id_object) FROM stdin;
-134	8
-135	7
-136	9
-137	10
-138	16
-139	110
-140	151
-141	12
+146	141
+147	18
+148	14
+149	131
+150	19
 \.
 
 
@@ -450,16 +447,10 @@ COPY public.freepost (id, id_object) FROM stdin;
 --
 
 COPY public.groupe (id, nom, "categorieId") FROM stdin;
-8	manette 1	3
-9	manette 2	3
-10	manette 3	3
-11	manette 4	3
-12	manette 5	3
-13	manette 6	3
-49	xbox 1	1
-50	xbox 2	1
-51	ps 1	2
-52	xbox 3	1
+53	xbox 1	1
+54	xbox 2	1
+55	ps 1	2
+56	ps 2	2
 \.
 
 
@@ -468,18 +459,18 @@ COPY public.groupe (id, nom, "categorieId") FROM stdin;
 --
 
 COPY public.poste (id, nom, object_id, "groupeId", status, gamer, start_time) FROM stdin;
-148	post 6	6	52	off	0	\N
-149	post 111	111	52	off	0	\N
-150	post 17	17	52	off	0	\N
-151	post 18	18	50	off	0	\N
-152	post 121	121	50	off	0	\N
-153	post 141	141	50	off	0	\N
-154	post 19	19	49	off	0	\N
-155	post 131	131	49	off	0	\N
-156	post 14	14	49	off	0	\N
-157	post 100	100	51	off	0	\N
-158	post 13	13	51	off	0	\N
-159	post 11	11	51	off	0	\N
+160	post 8	8	53	off	0	\N
+161	post 7	7	53	off	0	\N
+162	post 9	9	53	off	0	\N
+163	post 10	10	54	off	0	\N
+164	post 16	16	54	off	0	\N
+165	post 110	110	54	off	0	\N
+166	post 151	151	55	off	0	\N
+167	post 12	12	55	off	0	\N
+168	post 6	6	55	off	0	\N
+169	post 111	111	56	off	0	\N
+170	post 17	17	56	off	0	\N
+171	post 121	121	56	off	0	\N
 \.
 
 
@@ -488,9 +479,6 @@ COPY public.poste (id, nom, object_id, "groupeId", status, gamer, start_time) FR
 --
 
 COPY public.rapport (id, created_at, hour, client, amount, duration, category, cashier) FROM stdin;
-1	2022-09-03 10:29:07.956344	2022-09-03 10:29:07.956344	adafresh	5000	45	xbox	Duamelo
-2	2022-09-03 10:33:50.444918	2022-09-03 10:33:50.444918	adafresh	5000	45	xbox	Duamelo
-3	2022-09-03 10:34:27.097936	2022-09-03 10:34:27.097936	adafresh	5000	45	xbox	Duamelo
 \.
 
 
@@ -499,10 +487,8 @@ COPY public.rapport (id, created_at, hour, client, amount, duration, category, c
 --
 
 COPY public.souscription (id, "clientId", "groupeId", montant, duree, "dureeRestante") FROM stdin;
-30	2	49	2000	160	160
-31	51	50	500	40	40
-32	53	52	1500	75	75
-33	52	51	3000	300	300
+36	59	53	1000	60	60
+37	60	55	5000	450	450
 \.
 
 
@@ -511,10 +497,9 @@ COPY public.souscription (id, "clientId", "groupeId", montant, duree, "dureeRest
 --
 
 COPY public.tarif (id, label, montant, duree, "groupeId") FROM stdin;
-18	tombola	2000	160	49
-19	xpress	500	40	50
-20	terra	1500	75	52
-21	wow	3000	300	51
+22	tombola	1000	60	53
+23	xpress	500	30	54
+24	expensive	5000	450	55
 \.
 
 
@@ -523,12 +508,9 @@ COPY public.tarif (id, label, montant, duree, "groupeId") FROM stdin;
 --
 
 COPY public."user" (id, nom, prenoms, pseudo, type, phone, permissions, password, "currentHashedRefreshToken", access_report) FROM stdin;
-2	DOSSEH	David FRanck Duamel	Duamelo	admin	61088061	{CreatePostes,ReadPostes,UpdatePostes,DeletePostes,CreateCategories,ReadCategories,UpdateCategories,DeleteCategories,CreateGroupes,ReadGroupes,UpdateGroupes,DeleteGroupes,GenererRapport,CreateSouscriptions,ReadSouscriptions,UpdateSouscriptions,DeleteSouscriptions,CreateTarifs,ReadTarifs,UpdateTarifs,DeleteTarifs}	$2b$15$VqtkpNBGBkx3YQqPEdC4u.0PARucx4XuU0HR7K760kw9IRZWIbA7i	$2b$10$fiUY6BknOnGdp.6xnuip4uB5opMCNXu9MUmwEInzR4Q85I3..ZV7.	t
-53	\N	\N	charbel	gerant	\N	{}	$2b$10$J//mEDUUK0k2fewN8KnzJ.vblrZpMUAJvsVhTSec5ZOtrLDl4Ylja	\N	f
-52	\N	\N	roland	promoteur	\N	{}	$2b$10$8QkTBcnRzj7Kqh3BajomZ.Gymahr59AuL5nCph6ml8oB03hXyeBH2	\N	t
-51	\N	\N	dani	client	\N	{}	$2b$10$vrayUFHQYjF3uV1M4wzNduHhq1NN5InIY7DihGX9UPo6D0q6QKcOy	$2b$10$g0JoymwXHwBwS45JcMKUoedJ1SPvFCwzQcFawMRtwGvp2j9Vpl6y.	f
-54	\N	\N	thomas	client	\N	{}	$2b$10$9ScWYLcaSl2siZqXak3vgOXG6SL3zGkFnWc1hKr9HJvk85ZchacRe	\N	f
-55	\N	\N	michel	client	\N	{}	$2b$10$6a5X6jZNj16E4g/GCafkbe0zOkAdPSqZruGyY71B7852H8X//H.bu	$2b$10$YInywpX5VrbXbeht3xhCJOfrakMqiJmErfDzgBEsIrK2E63AyXnem	f
+64	\N	\N	charbel	gerant	\N	{}	$2b$10$YkP.Nq5ZzYPUGww5dsqJe.yPxCTBOu.yS4iNTdlvUemfbs/dLzXTu	\N	t
+59	\N	\N	Duamelo	promoteur	\N	{}	$2b$10$OG6uhtbm0eNnCbl.F8xZlOiCohiG3BYAu2.VvBm0GVmgDKIKBnA0K	$2b$10$2jGJeZAPyyu4k/52bFcIbORKqfTWNKx7s8.MX1UEzDb1L4H2UjYNC	t
+60	\N	\N	dani	client	\N	{}	$2b$10$WLuw4p2mZgZ7.onrWof36uN59ewkinY1htkLY6SNX1BQbXSokDAkm	$2b$10$7z0YrkNwLUhdXzZzwk2BzOLMZpjEmgccs9wPOXz6qMqR50nnzePZS	f
 \.
 
 
@@ -551,21 +533,21 @@ SELECT pg_catalog.setval('public.categorie_id_seq', 3, true);
 -- Name: freepost_id_seq; Type: SEQUENCE SET; Schema: public; Owner: franck
 --
 
-SELECT pg_catalog.setval('public.freepost_id_seq', 141, true);
+SELECT pg_catalog.setval('public.freepost_id_seq', 150, true);
 
 
 --
 -- Name: groupe_id_seq; Type: SEQUENCE SET; Schema: public; Owner: franck
 --
 
-SELECT pg_catalog.setval('public.groupe_id_seq', 52, true);
+SELECT pg_catalog.setval('public.groupe_id_seq', 56, true);
 
 
 --
 -- Name: poste_id_seq; Type: SEQUENCE SET; Schema: public; Owner: franck
 --
 
-SELECT pg_catalog.setval('public.poste_id_seq', 159, true);
+SELECT pg_catalog.setval('public.poste_id_seq', 171, true);
 
 
 --
@@ -579,21 +561,21 @@ SELECT pg_catalog.setval('public.rapport_id_seq', 3, true);
 -- Name: souscription_id_seq; Type: SEQUENCE SET; Schema: public; Owner: franck
 --
 
-SELECT pg_catalog.setval('public.souscription_id_seq', 33, true);
+SELECT pg_catalog.setval('public.souscription_id_seq', 37, true);
 
 
 --
 -- Name: tarif_id_seq; Type: SEQUENCE SET; Schema: public; Owner: franck
 --
 
-SELECT pg_catalog.setval('public.tarif_id_seq', 21, true);
+SELECT pg_catalog.setval('public.tarif_id_seq', 24, true);
 
 
 --
 -- Name: user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: franck
 --
 
-SELECT pg_catalog.setval('public.user_id_seq', 55, true);
+SELECT pg_catalog.setval('public.user_id_seq', 64, true);
 
 
 --

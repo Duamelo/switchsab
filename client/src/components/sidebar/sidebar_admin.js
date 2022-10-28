@@ -30,15 +30,15 @@ const add_admin = {
     confirmation_mot_de_passe: "",
 
     save(e){
-      e.preventDefault()
+      e.preventDefault();
       m.request({
         method: "POST",
         url: server.url + "/auth/register",
         body: {
-            "pseudo": add_admin.identifiant,
-            "password" : add_admin.mot_de_passe,
-            "type": add_admin.type,
-          }
+          pseudo: add_admin.identifiant,
+          password : add_admin.mot_de_passe,
+          type: add_admin.type,
+        }
       })
       .then((response) => {
           if (response != undefined) {
