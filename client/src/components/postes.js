@@ -3,6 +3,7 @@ const computer = require('./computer');
 
 module.exports = {
     view: function(vnode){
+        // console.log(vnode.attrs.posts);
         return [
             m("div", {"class":"g-3 row row-cols-4"},
             [

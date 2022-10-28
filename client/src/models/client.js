@@ -63,7 +63,7 @@ const client = {
                     client.groupes.push(result);
                 });
             });
-
+            client.last_filtre = [];
             client_ids.filter((value, index, self)=> self.indexOf(value) === index ).map((c_id, index)=>{
                 // console.log(c_id);
                 group_ids.filter((value, index, self)=> self.indexOf(value) === index).map((g_id, index)=>{

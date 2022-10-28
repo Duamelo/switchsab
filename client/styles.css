@@ -263,3 +263,9 @@
     position: relative;
     left: 40px;
 }
+
+.client_name{
+    position: relative;
+    left: 50px;
+    top: 7px;
+}

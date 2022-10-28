@@ -1,10 +1,11 @@
 
 var m = require('mithril');
 const server = require('../config/server');
+const poste = require('./poste');
 const souscription = require('./souscriptions');
 
 const _poste = {
-    update: function(start_time, state, poste_name, poste_id, groupe_id, client_id, timer_id, r_duration, cpt, id_subscribing) {
+        update: function(start_time, state, poste_name, poste_id, groupe_id, client_id, timer_id, r_duration, cpt, id_subscribing) {
         m.request({
             headers: {
                 Authorization: "Bearer " + window.localStorage.jwt,
@@ -57,10 +58,8 @@ const _poste = {
                                 if(t.id == poste_id)
                                     clearInterval(t.timer);
                             });
-                            clearInterval(timer_id);
-                            setTimeout(()=>{
-                                souscription.load_souscription();
-                            }, 2000);
+                            souscription.load_souscription();
+                            poste.load_poste();
                         });
                     });
                 }
@@ -100,7 +99,6 @@ const _poste = {
                                 if(t.id == poste_id)
                                     clearInterval(t.timer);
                             });
-                            clearInterval(timer_id);
                         });
                     });
                 }

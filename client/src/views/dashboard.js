@@ -30,7 +30,7 @@ const tabs = {
             group.load_group();
             poste.load_poste();
         },
-   
+
        view: function(vnode){
            return [
               m("div", {
